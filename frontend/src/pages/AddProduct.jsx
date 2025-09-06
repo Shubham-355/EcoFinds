@@ -21,6 +21,21 @@ const AddProduct = () => {
 
   useEffect(() => {
     fetchCategories();
+    
+    // Check for duplicated product data
+    const duplicatedProduct = localStorage.getItem('duplicateProduct');
+    if (duplicatedProduct) {
+      try {
+        const productData = JSON.parse(duplicatedProduct);
+        setFormData(prev => ({
+          ...prev,
+          ...productData
+        }));
+        localStorage.removeItem('duplicateProduct');
+      } catch (error) {
+        console.error('Error parsing duplicated product:', error);
+      }
+    }
   }, []);
 
   const fetchCategories = async () => {
