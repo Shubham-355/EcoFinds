@@ -4,17 +4,17 @@ import api from '../utils/api';
 
 const EditProductModal = ({ product, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
-    title: product.title,
-    description: product.description,
-    price: product.price,
-    categoryId: product.categoryId,
+    title: product.title || '',
+    description: product.description || '',
+    price: product.price || '',
+    categoryId: product.categoryId || product.category?.id || '',
     image: null,
     isAvailable: product.isAvailable,
   });
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [preview, setPreview] = useState(product.image);
+  const [preview, setPreview] = useState(product.image || '');
 
   useEffect(() => {
     fetchCategories();
@@ -62,10 +62,29 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
     setLoading(true);
     setError('');
 
+    // Basic validation
+    if (!formData.title.trim()) {
+      setError('Product title is required');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.description.trim()) {
+      setError('Product description is required');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.price || formData.price <= 0) {
+      setError('Valid price is required');
+      setLoading(false);
+      return;
+    }
+
     try {
       const submitData = new FormData();
-      submitData.append('title', formData.title);
-      submitData.append('description', formData.description);
+      submitData.append('title', formData.title.trim());
+      submitData.append('description', formData.description.trim());
       submitData.append('price', formData.price);
       submitData.append('categoryId', formData.categoryId);
       submitData.append('isAvailable', formData.isAvailable);
@@ -81,6 +100,7 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
 
       onUpdate(response.data.product);
     } catch (error) {
+      console.error('Update product error:', error);
       setError(error.response?.data?.error || 'Failed to update product');
     } finally {
       setLoading(false);

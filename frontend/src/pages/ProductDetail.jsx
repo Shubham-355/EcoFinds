@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, User, MessageCircle } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, User, MessageCircle, Edit, Trash2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Layout from '../components/Layout';
 import ChatModal from '../components/ChatModal';
+import EditProductModal from '../components/EditProductModal';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showChat, setShowChat] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
     fetchProduct();
@@ -63,6 +65,30 @@ const ProductDetail = () => {
     } catch (error) {
       console.error('Error completing order:', error);
       alert('Failed to complete order');
+    }
+  };
+
+  const handleEditComplete = (updatedProduct) => {
+    setProduct(updatedProduct);
+    setShowEdit(false);
+    alert('Product updated successfully!');
+  };
+
+  const handleDelete = async () => {
+    if (!product.isAvailable) {
+      alert('Cannot delete sold products');
+      return;
+    }
+    
+    if (window.confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+      try {
+        await api.delete(`/products/${id}`);
+        alert('Product deleted successfully!');
+        navigate('/my-listings');
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        alert(error.response?.data?.error || 'Failed to delete product');
+      }
     }
   };
 
@@ -152,25 +178,52 @@ const ProductDetail = () => {
               )}
 
               <div className="space-y-4">
-                {!isOwner && product.isAvailable && (
-                  <button
-                    onClick={() => setShowChat(true)}
-                    className="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 flex items-center justify-center space-x-2 text-lg font-semibold"
-                  >
-                    <MessageCircle size={20} />
-                    <span>Chat with Seller</span>
-                  </button>
-                )}
-
-                {!product.isAvailable && (
+                {isOwner ? (
+                  product.isAvailable ? (
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={() => setShowEdit(true)}
+                        className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                      >
+                        <Edit size={20} />
+                        <span>Edit Product</span>
+                      </button>
+                      <button
+                        onClick={handleDelete}
+                        className="flex-1 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                      >
+                        <Trash2 size={20} />
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-600 py-3">
+                      <p className="mb-2">This product has been sold</p>
+                      <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
+                        SOLD
+                      </span>
+                    </div>
+                  )
+                ) : product.isAvailable ? (
+                  <>
+                    <button
+                      onClick={handleAddToCart}
+                      className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                    >
+                      <ShoppingCart size={20} />
+                      <span>Add to Cart</span>
+                    </button>
+                    <button
+                      onClick={() => setShowChat(true)}
+                      className="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                    >
+                      <MessageCircle size={20} />
+                      <span>Chat with Seller</span>
+                    </button>
+                  </>
+                ) : (
                   <div className="w-full bg-gray-400 text-white py-3 px-6 rounded-md text-center text-lg font-semibold">
                     Not Available
-                  </div>
-                )}
-
-                {isOwner && (
-                  <div className="text-center text-gray-600 py-3">
-                    This is your product listing
                   </div>
                 )}
               </div>
@@ -194,6 +247,14 @@ const ProductDetail = () => {
             originalPrice={product.price}
             onClose={() => setShowChat(false)}
             onOrderAgreed={handleOrderAgreed}
+          />
+        )}
+
+        {showEdit && (
+          <EditProductModal
+            product={product}
+            onClose={() => setShowEdit(false)}
+            onUpdate={handleEditComplete}
           />
         )}
       </div>

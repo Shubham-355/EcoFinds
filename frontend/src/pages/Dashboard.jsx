@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Edit2, Camera, Mail, Calendar } from 'lucide-react';
+import { User, Edit2, Camera, Mail, Calendar, Package } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Layout from '../components/Layout';
