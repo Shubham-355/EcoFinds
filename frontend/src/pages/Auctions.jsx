@@ -32,11 +32,16 @@ const Auctions = () => {
       if (selectedCategory) params.category = selectedCategory;
       if (statusFilter) params.status = statusFilter;
       
+      console.log('Fetching auctions with params:', params);
+      
       const response = await api.get('/auctions', { params });
+      console.log('Auctions response:', response.data);
+      
       setAuctions(response.data.auctions || []);
       setTotalPages(response.data.pagination?.totalPages || 1);
     } catch (error) {
       console.error('Error fetching auctions:', error);
+      console.error('Error response:', error.response?.data);
       setAuctions([]);
     } finally {
       setLoading(false);
@@ -167,10 +172,7 @@ const Auctions = () => {
               </div>
             </div>
           ) : auctions.length === 0 ? (
-            <div className="text-center py-12 brutal-card rounded-brutal">
-              <div className="bg-bg-secondary p-6 brutal-border shadow-brutal-sm rounded-brutal inline-block mb-4">
-                <Gavel className="mx-auto h-16 w-16 text-black" />
-              </div>
+            <div className="text-center space-x-10 py-12 brutal-card rounded-brutal">
               <div className="text-md font-bold text-black bg-bg-secondary px-4 py-2 brutal-border inline-block mb-4 rounded-brutal shadow-brutal-sm">
                 No auctions found
               </div>

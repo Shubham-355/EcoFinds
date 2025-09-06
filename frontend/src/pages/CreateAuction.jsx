@@ -86,6 +86,7 @@ const CreateAuction = () => {
     const end = new Date(endTime);
     const now = new Date();
     
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) return 'Invalid date format';
     if (start <= now) return 'Start time must be in the future';
     if (end <= start) return 'End time must be after start time';
     if (end - start < 30 * 60 * 1000) return 'Auction must run for at least 30 minutes';
@@ -111,8 +112,8 @@ const CreateAuction = () => {
 
     try {
       const submitData = new FormData();
-      submitData.append('title', formData.title);
-      submitData.append('description', formData.description);
+      submitData.append('title', formData.title.trim());
+      submitData.append('description', formData.description.trim());
       submitData.append('startingBid', formData.startingBid);
       if (formData.reservePrice) {
         submitData.append('reservePrice', formData.reservePrice);
@@ -122,39 +123,42 @@ const CreateAuction = () => {
       submitData.append('startTime', new Date(formData.startTime).toISOString());
       submitData.append('endTime', new Date(formData.endTime).toISOString());
 
-      // Add timeout to the request
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      console.log('Submitting auction data:', {
+        title: formData.title,
+        categoryId: formData.categoryId,
+        startingBid: formData.startingBid,
+        hasImage: !!formData.image
+      });
 
-      try {
-        await api.post('/auctions', submitData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          signal: controller.signal,
-          timeout: 60000
-        });
-        clearTimeout(timeoutId);
-        
-        // Show success notification
-        const notification = document.createElement('div');
-        notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50 animate-fade-in';
-        notification.textContent = 'Auction created successfully!';
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 3000);
-        
-        navigate('/auctions');
-      } catch (fetchError) {
-        clearTimeout(timeoutId);
-        throw fetchError;
-      }
+      const response = await api.post('/auctions', submitData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 60000
+      });
+      
+      console.log('Auction created successfully:', response.data);
+      
+      // Show success notification
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50 animate-fade-in';
+      notification.textContent = 'Auction created successfully!';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
+      
+      navigate('/auctions');
     } catch (error) {
       console.error('Create auction error:', error);
+      console.error('Error response:', error.response?.data);
       
       if (error.name === 'AbortError' || error.code === 'ECONNABORTED') {
         setError('Upload timeout. Please try with a smaller image or check your connection.');
       } else if (error.response?.status === 408) {
         setError(error.response?.data?.error || 'Request timeout. Please try again.');
+      } else if (error.response?.status === 400) {
+        setError(error.response?.data?.error || 'Invalid data. Please check your form.');
+      } else if (error.response?.status === 404) {
+        setError('Category not found. Please select a valid category.');
       } else {
         setError(error.response?.data?.error || 'Failed to create auction. Please try again.');
       }

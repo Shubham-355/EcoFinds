@@ -66,8 +66,8 @@ const AuctionCard = ({ auction, onAuctionUpdate }) => {
     return colors[status] || 'bg-white text-black';
   };
 
-  const currentBid = auction._count?.bids > 0 ? auction.currentBid || auction.startingBid : auction.startingBid;
-  const bidCount = auction._count?.bids || 0;
+  const currentBid = auction.currentBid || auction.startingBid;
+  const bidCount = auction.bidCount || auction._count?.bids || 0;
 
   return (
     <div className="bg-white brutal-border shadow-brutal hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal overflow-hidden">
@@ -77,6 +77,9 @@ const AuctionCard = ({ auction, onAuctionUpdate }) => {
             src={auction.image || '/api/placeholder/300/200'}
             alt={auction.title}
             className="w-full h-48 object-cover"
+            onError={(e) => {
+              e.target.src = '/api/placeholder/300/200';
+            }}
           />
         </Link>
         <div className="absolute top-2 right-2">
@@ -95,7 +98,7 @@ const AuctionCard = ({ auction, onAuctionUpdate }) => {
 
         <div className="mt-2 space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-bold text-black bg-bg-secondary px-2 py-1 brutal-border rounded-brutal-xs">
+            <span className="text-sm font-bold text-black bg-bg-secondary px-2 py-1 rounded-brutal-xs">
               Current Bid:
             </span>
             <span className="font-black text-black bg-primary px-2 py-1 brutal-border rounded-brutal-sm">
@@ -119,7 +122,7 @@ const AuctionCard = ({ auction, onAuctionUpdate }) => {
 
           <div className="flex items-center space-x-2 text-xs">
             <Clock size={12} />
-            <span className="font-bold text-black bg-bg-primary px-1 py-0.5 brutal-border rounded-brutal-xs">
+            <span className="font-bold text-black bg-bg-primary px-1 py-0.5 rounded-brutal-xs">
               {timeLeft}
             </span>
           </div>
@@ -127,7 +130,7 @@ const AuctionCard = ({ auction, onAuctionUpdate }) => {
           {auction.user && (
             <div className="flex items-center space-x-2">
               <User size={12} />
-              <span className="text-xs font-bold text-black bg-white px-1 py-0.5 brutal-border rounded-brutal-xs">
+              <span className="text-xs font-bold text-black bg-white px-1 py-0.5 rounded-brutal-xs">
                 by {auction.user.username}
               </span>
             </div>
