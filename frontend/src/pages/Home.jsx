@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import Layout from '../components/Layout';
+import ChatModal from '../components/ChatModal';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,7 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -62,6 +64,30 @@ const Home = () => {
     e.preventDefault();
     setCurrentPage(1);
     fetchProducts();
+  };
+
+  const handleChatClick = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleOrderAgreed = async (agreedPrice = null) => {
+    try {
+      const payload = {
+        productId: selectedProduct.id,
+      };
+      
+      if (agreedPrice) {
+        payload.agreedPrice = agreedPrice;
+      }
+      
+      await api.post('/orders/checkout-direct', payload);
+      alert('Order completed successfully!');
+      setSelectedProduct(null);
+      fetchProducts();
+    } catch (error) {
+      console.error('Error completing order:', error);
+      alert('Failed to complete order');
+    }
   };
 
   return (
@@ -132,6 +158,7 @@ const Home = () => {
                 key={product.id}
                 product={product}
                 onAddToCart={handleAddToCart}
+                onChatClick={handleChatClick}
               />
             ))}
           </div>
@@ -154,6 +181,19 @@ const Home = () => {
               </button>
             ))}
           </div>
+        )}
+
+        {/* Chat Modal */}
+        {selectedProduct && (
+          <ChatModal
+            productId={selectedProduct.id}
+            sellerId={selectedProduct.user.id}
+            sellerName={selectedProduct.user.username}
+            productTitle={selectedProduct.title}
+            originalPrice={selectedProduct.price}
+            onClose={() => setSelectedProduct(null)}
+            onOrderAgreed={handleOrderAgreed}
+          />
         )}
       </div>
     </Layout>

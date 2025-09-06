@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -15,19 +9,19 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  username    String   @unique
-  email       String   @unique
-  password    String
-  profilePhoto String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String     @id @default(cuid())
+  username        String     @unique
+  email           String     @unique
+  password        String
+  profilePhoto    String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  cartItems       CartItem[]
+  orders          Order[]
+  products        Product[]
+  sentMessages    Message[]  @relation("SentMessages")
+  receivedMessages Message[]  @relation("ReceivedMessages")
 
-  // Relations
-  products    Product[]
-  cartItems   CartItem[]
-  orders      Order[]
-  
   @@map("users")
 }
 
@@ -40,39 +34,32 @@ model Category {
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   description String
   price       Float
   image       String
-  isAvailable Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Foreign keys
-  userId     String
-  categoryId String
-
-  // Relations
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category   Category   @relation(fields: [categoryId], references: [id])
-  cartItems  CartItem[]
-  orderItems OrderItem[]
+  isAvailable Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  userId      String
+  categoryId  String
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  messages     Message[]
+  category    Category    @relation(fields: [categoryId], references: [id])
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("products")
 }
 
 model CartItem {
-  id        String @id @default(cuid())
-  quantity  Int    @default(1)
-
-  // Foreign keys
+  id        String  @id @default(cuid())
+  quantity  Int     @default(1)
   userId    String
   productId String
-
-  // Relations
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
   @@map("cart_items")
@@ -84,31 +71,46 @@ model Order {
   status      OrderStatus @default(PENDING)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-
-  // Foreign keys
-  userId String
-
-  // Relations
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  orderItems OrderItem[]
+  userId      String
+  orderItems  OrderItem[]
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("orders")
 }
 
 model OrderItem {
-  id       String @id @default(cuid())
-  quantity Int
-  price    Float
-
-  // Foreign keys
+  id        String  @id @default(cuid())
+  quantity  Int
+  price     Float
   orderId   String
   productId String
-
-  // Relations
-  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
 
   @@map("order_items")
+}
+
+model Message {
+  id              String   @id @default(cuid())
+  content         String
+  senderId        String
+  receiverId      String
+  productId       String
+  isOffer         Boolean  @default(false)
+  isCounterOffer  Boolean  @default(false)
+  isOfferResponse Boolean  @default(false)
+  offerAmount     Float?
+  offerAccepted   Boolean?
+  originalOfferId String?
+  responded       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  sender    User    @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver  User    @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
 }
 
 enum OrderStatus {

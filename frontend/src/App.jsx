@@ -12,6 +12,7 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import Dashboard from './pages/Dashboard';
+import Messages from './pages/Messages';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -77,6 +78,11 @@ function App() {
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/messages" element={
+              <ProtectedRoute>
+                <Messages />
               </ProtectedRoute>
             } />
           </Routes>
