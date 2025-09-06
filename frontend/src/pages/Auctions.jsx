@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Plus } from 'lucide-react';
+import { Search, Filter, Plus, Gavel } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import ProductCard from '../components/ProductCard';
+import AuctionCard from '../components/AuctionCard';
 import Layout from '../components/Layout';
 
-const Home = () => {
+const Auctions = () => {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
+  const [auctions, setAuctions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchProducts();
+    fetchAuctions();
     fetchCategories();
-  }, [searchTerm, selectedCategory, currentPage]);
+  }, [searchTerm, selectedCategory, statusFilter, currentPage]);
 
-  const fetchProducts = async () => {
+  const fetchAuctions = async () => {
     try {
       const params = {
         page: currentPage,
@@ -29,12 +30,14 @@ const Home = () => {
       
       if (searchTerm) params.search = searchTerm;
       if (selectedCategory) params.category = selectedCategory;
+      if (statusFilter) params.status = statusFilter;
       
-      const response = await api.get('/products', { params });
-      setProducts(response.data.products);
-      setTotalPages(response.data.pagination.total);
+      const response = await api.get('/auctions', { params });
+      setAuctions(response.data.auctions || []);
+      setTotalPages(response.data.pagination?.totalPages || 1);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching auctions:', error);
+      setAuctions([]);
     } finally {
       setLoading(false);
     }
@@ -49,64 +52,14 @@ const Home = () => {
     }
   };
 
-  const handleAddToCart = async (productId) => {
-    try {
-      await api.post('/cart/add', { productId, quantity: 1 });
-      alert('Product added to cart!');
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      alert('Failed to add product to cart');
-    }
-  };
-
   const handleSearch = (e) => {
     e.preventDefault();
     setCurrentPage(1);
-    fetchProducts();
+    fetchAuctions();
   };
 
-  const handleChatClick = async (product) => {
-    try {
-      // Create initial message to start conversation
-      await api.post('/chat/send', {
-        productId: product.id,
-        receiverId: product.user.id,
-        content: `Hi! I'm interested in your product: ${product.title}`,
-      });
-      
-      // Navigate to messages page
-      navigate('/messages');
-    } catch (error) {
-      console.error('Error starting chat:', error);
-      // If error, still navigate to messages page
-      navigate('/messages');
-    }
-  };
-
-  const handleOrderAgreed = async (agreedPrice = null, buyerId = null) => {
-    try {
-      const payload = {
-        productId: selectedProduct.id,
-      };
-      
-      if (agreedPrice) {
-        payload.agreedPrice = agreedPrice;
-      }
-      
-      if (buyerId) {
-        payload.buyerId = buyerId;
-      }
-      
-      await api.post('/orders/checkout-direct', payload);
-      alert('Order completed successfully!');
-      setShowChat(false);
-      setSelectedProduct(null);
-      // Navigate to orders page instead of refreshing products
-      navigate('/orders');
-    } catch (error) {
-      console.error('Error completing order:', error);
-      alert('Failed to complete order');
-    }
+  const handleAuctionUpdate = () => {
+    fetchAuctions();
   };
 
   return (
@@ -116,14 +69,15 @@ const Home = () => {
           {/* Header */}
           <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
             <h1 className="brutal-header text-2xl bg-primary px-6 py-3 shadow-brutal-sm rounded-brutal">
-              BROWSE PRODUCTS
+              <Gavel className="inline mr-2" size={24} />
+              AUCTION HOUSE
             </h1>
             <Link
-              to="/add-product"
+              to="/create-auction"
               className="brutal-btn brutal-btn-primary flex items-center space-x-2 rounded-brutal"
             >
               <Plus size={16} />
-              <span>ADD PRODUCT</span>
+              <span>CREATE AUCTION</span>
             </Link>
           </div>
 
@@ -131,9 +85,10 @@ const Home = () => {
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3">
             <div className="flex-1">
               <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                 <input
                   type="text"
-                  placeholder="Search for products..."
+                  placeholder="Search auctions..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="brutal-input w-full pl-10 rounded-brutal"
@@ -154,6 +109,17 @@ const Home = () => {
                   </option>
                 ))}
               </select>
+
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="brutal-select min-w-[120px] rounded-brutal"
+              >
+                <option value="">All Status</option>
+                <option value="SCHEDULED">Scheduled</option>
+                <option value="LIVE">Live</option>
+                <option value="ENDED">Ended</option>
+              </select>
               
               <button
                 type="submit"
@@ -165,33 +131,63 @@ const Home = () => {
             </div>
           </form>
 
-          {/* Products Grid */}
+          {/* Status Filters */}
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => {setStatusFilter(''); setCurrentPage(1);}}
+              className={`brutal-btn text-xs rounded-brutal ${!statusFilter ? 'brutal-btn-primary' : 'brutal-btn-secondary'}`}
+            >
+              All Auctions
+            </button>
+            <button
+              onClick={() => {setStatusFilter('LIVE'); setCurrentPage(1);}}
+              className={`brutal-btn text-xs rounded-brutal ${statusFilter === 'LIVE' ? 'brutal-btn-primary' : 'brutal-btn-secondary'}`}
+            >
+              🔴 Live Now
+            </button>
+            <button
+              onClick={() => {setStatusFilter('SCHEDULED'); setCurrentPage(1);}}
+              className={`brutal-btn text-xs rounded-brutal ${statusFilter === 'SCHEDULED' ? 'brutal-btn-primary' : 'brutal-btn-secondary'}`}
+            >
+              📅 Upcoming
+            </button>
+            <button
+              onClick={() => {setStatusFilter('ENDED'); setCurrentPage(1);}}
+              className={`brutal-btn text-xs rounded-brutal ${statusFilter === 'ENDED' ? 'brutal-btn-primary' : 'brutal-btn-secondary'}`}
+            >
+              ⏰ Ended
+            </button>
+          </div>
+
+          {/* Auctions Grid */}
           {loading ? (
             <div className="text-center py-12 brutal-card rounded-brutal">
               <div className="text-md font-bold text-black bg-primary px-4 py-2 brutal-border inline-block rounded-brutal shadow-brutal-sm">
-                Loading products...
+                Loading auctions...
               </div>
             </div>
-          ) : products.length === 0 ? (
+          ) : auctions.length === 0 ? (
             <div className="text-center py-12 brutal-card rounded-brutal">
+              <div className="bg-bg-secondary p-6 brutal-border shadow-brutal-sm rounded-brutal inline-block mb-4">
+                <Gavel className="mx-auto h-16 w-16 text-black" />
+              </div>
               <div className="text-md font-bold text-black bg-bg-secondary px-4 py-2 brutal-border inline-block mb-4 rounded-brutal shadow-brutal-sm">
-                No products found
+                No auctions found
               </div>
               <Link 
-                to="/add-product"
+                to="/create-auction"
                 className="brutal-btn brutal-btn-primary rounded-brutal"
               >
-                Add First Product
+                Create First Auction
               </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAddToCart={handleAddToCart}
-                  onChatClick={handleChatClick}
+              {auctions.map((auction) => (
+                <AuctionCard
+                  key={auction.id}
+                  auction={auction}
+                  onAuctionUpdate={handleAuctionUpdate}
                 />
               ))}
             </div>
@@ -221,4 +217,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Auctions;

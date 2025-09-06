@@ -30,7 +30,11 @@ const MyListings = () => {
 
   const handleEdit = (product) => {
     if (!product.isAvailable) {
-      alert('Cannot edit sold products');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-yellow-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Cannot edit sold products';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
       return;
     }
     setEditingProduct(product);
@@ -39,7 +43,11 @@ const MyListings = () => {
   const handleDelete = async (productId) => {
     const product = products.find(p => p.id === productId);
     if (!product.isAvailable) {
-      alert('Cannot delete sold products');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-yellow-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Cannot delete sold products';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
       return;
     }
     
@@ -47,10 +55,18 @@ const MyListings = () => {
       try {
         await api.delete(`/products/${productId}`);
         setProducts(products.filter(p => p.id !== productId));
-        alert('Product deleted successfully!');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = 'Product deleted successfully!';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       } catch (error) {
         console.error('Error deleting product:', error);
-        alert(error.response?.data?.error || 'Failed to delete product');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = error.response?.data?.error || 'Failed to delete product';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       }
     }
   };
@@ -58,13 +74,21 @@ const MyListings = () => {
   const handleEditComplete = (updatedProduct) => {
     setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
     setEditingProduct(null);
-    alert('Product updated successfully!');
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+    notification.textContent = 'Product updated successfully!';
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
   };
 
   const handleMarkAsSold = async (productId) => {
     const product = products.find(p => p.id === productId);
     if (!product.isAvailable) {
-      alert('Product is already marked as sold');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-yellow-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Product is already marked as sold';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
       return;
     }
 
@@ -76,10 +100,18 @@ const MyListings = () => {
         setProducts(products.map(p => 
           p.id === productId ? { ...p, isAvailable: false } : p
         ));
-        alert('Product marked as sold successfully!');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = 'Product marked as sold successfully!';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       } catch (error) {
         console.error('Error marking product as sold:', error);
-        alert(error.response?.data?.error || 'Failed to mark product as sold');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = error.response?.data?.error || 'Failed to mark product as sold';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       }
     }
   };
@@ -93,10 +125,18 @@ const MyListings = () => {
         setProducts(products.map(p => 
           p.id === productId ? { ...p, isAvailable: true } : p
         ));
-        alert('Product marked as available successfully!');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = 'Product marked as available successfully!';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       } catch (error) {
         console.error('Error marking product as available:', error);
-        alert(error.response?.data?.error || 'Failed to mark product as available');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = error.response?.data?.error || 'Failed to mark product as available';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       }
     }
   };
@@ -113,13 +153,15 @@ const MyListings = () => {
     };
 
     try {
-      // For now, we'll navigate to add product page with pre-filled data
-      // In a real app, you might want to create a duplicate endpoint
       localStorage.setItem('duplicateProduct', JSON.stringify(duplicatedProduct));
       window.location.href = '/add-product';
     } catch (error) {
       console.error('Error duplicating product:', error);
-      alert('Failed to duplicate product');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Failed to duplicate product';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
     }
   };
 
@@ -138,7 +180,11 @@ const MyListings = () => {
     });
 
     if (availableProducts.length === 0) {
-      alert('No available products selected for deletion');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-yellow-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'No available products selected for deletion';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
       return;
     }
 
@@ -148,10 +194,18 @@ const MyListings = () => {
         setProducts(products.filter(p => !availableProducts.includes(p.id)));
         setSelectedProducts([]);
         setShowBulkActions(false);
-        alert(`${availableProducts.length} products deleted successfully!`);
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = `${availableProducts.length} products deleted successfully!`;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       } catch (error) {
         console.error('Error deleting products:', error);
-        alert('Failed to delete some products');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = 'Failed to delete some products';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       }
     }
   };

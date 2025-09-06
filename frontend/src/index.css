@@ -203,3 +203,29 @@ body {
   z-index: 10;
   padding: 0 4px;
 }
+
+/* Additional Border Classes */
+.brutal-border-r {
+  border-right: 4px solid #000000;
+}
+
+.brutal-border-l {
+  border-left: 4px solid #000000;
+}
+
+.brutal-border-t {
+  border-top: 4px solid #000000;
+}
+
+.brutal-border-b {
+  border-bottom: 4px solid #000000;
+}
+
+/* Enhanced shadows for larger elements */
+.shadow-brutal-lg {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.shadow-brutal-xl {
+  box-shadow: 6px 6px 0px 0px #000000;
+}

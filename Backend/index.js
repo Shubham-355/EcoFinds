@@ -12,6 +12,7 @@ import cartRoutes from './routes/cart.js';
 import orderRoutes from './routes/orders.js';
 import chatRoutes from './routes/chat.js';
 import chatbotRoutes from './routes/chatbot.js';
+import auctionRoutes from './routes/auctions.js';
 
 // Load environment variables
 dotenv.config();
@@ -37,6 +38,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/auctions', auctionRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
