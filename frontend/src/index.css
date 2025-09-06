@@ -1,1 +1,167 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* Global Neubrutalism Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Arial', sans-serif;
+  background-color: #FFFFFF;
+  color: #000000;
+  font-weight: 600;
+}
+
+/* Brutal Button Styles with Smaller Sizes */
+.brutal-btn {
+  transition: all 0.1s ease;
+  border: 2px solid #000000;
+  font-weight: 700;
+  background-color: #FFFFFF;
+  color: #000000;
+  padding: 8px 16px;
+  box-shadow: 2px 2px 0px 0px #000000;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  border-radius: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.brutal-border{
+  transition: all 0.1s ease;
+  border: 2px solid #000000;
+  font-weight: 700;
+  background-color: #FFFFFF;
+  color: #000000;
+  box-shadow: 2px 2px 0px 0px #000000;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  border-radius: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.brutal-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px 0px #000000;
+}
+
+.brutal-btn:active {
+  transform: translate(0px, 0px);
+  box-shadow: 1px 1px 0px 0px #000000;
+}
+
+.brutal-btn-primary {
+  background-color: #C8FF00;
+  color: #000000;
+}
+
+.brutal-btn-secondary {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+/* Input Styles - Smaller and Rounded */
+.brutal-input {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  background-color: #FFFFFF;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.1s ease;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0px 0px #000000, inset 0 0 0 2px #000000;
+  color: #505050;
+  font-family: 'Inter', sans-serif;
+}
+
+.brutal-input:focus {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px 0px #000000, inset 0 0 0 2px #000000;
+  background-color: #F9F9F9;
+}
+
+.brutal-input::placeholder {
+  color: #666666;
+  font-weight: 500;
+}
+
+/* Card Styles - Smaller and Rounded */
+.brutal-card {
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px 0px #000000;
+  background-color: #FFFFFF;
+  transition: all 0.1s ease;
+  border-radius: 8px;
+}
+
+.brutal-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px 0px #000000;
+}
+
+/* Header Styles - Smaller */
+.brutal-header {
+  font-weight: 900;
+  font-size: 24px;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+/* Select Styles - Smaller and Rounded */
+.brutal-select {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  background-color: #F5F5F5;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.1s ease;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0px 0px #000000, inset 0 0 0 2px #000000;
+  color: #505050;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+}
+
+.brutal-select:focus {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px 0px #000000, inset 0 0 0 2px #000000;
+  background-color: #FFFFFF;
+}
+
+/* Clean Selection */
+::selection {
+  background: #C8FF00;
+  color: #000000;
+}
+
+/* Scrollbar - Minimal and Clean */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}

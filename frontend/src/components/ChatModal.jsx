@@ -150,39 +150,39 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
 
     return (
       <div className={`flex ${isMyOffer ? 'justify-end' : 'justify-start'}`}>
-        <div className={`max-w-xs px-3 py-2 border-2 border-black shadow-brutal-sm ${
+        <div className={`max-w-xs px-2 py-2 border   shadow-brutal-xs rounded-brutal-xs ${
           isMyOffer ? 'bg-primary text-black' : 'bg-bg-secondary text-black'
         }`}>
           <div className="flex items-center space-x-1 mb-1">
-            <DollarSign size={14} />
+            <DollarSign size={12} />
             <span className="text-xs font-semibold">
               {message.isCounterOffer ? 'Counter Offer' : 'Offer'}
             </span>
           </div>
-          <p className="text-sm">{message.content}</p>
-          <p className="text-lg font-bold">${message.offerAmount}</p>
+          <p className="text-xs">{message.content}</p>
+          <p className="text-sm font-bold">${message.offerAmount}</p>
           <p className="text-xs opacity-75 mt-1">
             {new Date(message.createdAt).toLocaleTimeString()}
           </p>
           
           {canRespond && (
-            <div className="mt-2 space-y-2">
+            <div className="mt-2 space-y-1">
               <div className="flex space-x-1">
                 <button
                   onClick={() => handleOfferResponse(message.id, true)}
-                  className="px-2 py-1 bg-green-500 text-white text-xs rounded"
+                  className="px-1 py-1 bg-primary text-black text-xs border   shadow-brutal-xs hover:bg-secondary font-bold rounded-brutal-xs"
                 >
                   Accept
                 </button>
                 <button
                   onClick={() => setShowCounter(!showCounter)}
-                  className="px-2 py-1 bg-blue-500 text-white text-xs rounded"
+                  className="px-1 py-1 bg-bg-secondary text-black text-xs border   shadow-brutal-xs hover:bg-primary font-bold rounded-brutal-xs"
                 >
                   Counter
                 </button>
                 <button
                   onClick={() => handleOfferResponse(message.id, false)}
-                  className="px-2 py-1 bg-red-500 text-white text-xs rounded"
+                  className="px-1 py-1 bg-red-300 text-black text-xs border   shadow-brutal-xs hover:bg-red-400 font-bold rounded-brutal-xs"
                 >
                   Decline
                 </button>
@@ -195,7 +195,7 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
                     placeholder="Amount"
                     value={counterAmount}
                     onChange={(e) => setCounterAmount(e.target.value)}
-                    className="flex-1 px-2 py-1 text-xs border rounded text-gray-900"
+                    className="flex-1 px-1 py-1 text-xs border   bg-bg-primary text-black font-bold focus:outline-none rounded-brutal-xs"
                     min="0"
                     step="0.01"
                   />
@@ -207,7 +207,7 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
                         setShowCounter(false);
                       }
                     }}
-                    className="px-2 py-1 bg-blue-500 text-white text-xs rounded"
+                    className="px-1 py-1 bg-primary text-black text-xs border   shadow-brutal-xs hover:bg-secondary font-bold rounded-brutal-xs"
                   >
                     Send
                   </button>
@@ -228,26 +228,26 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white border-4 border-black shadow-brutal max-w-md w-full h-96 flex flex-col">
-        <div className="p-4 border-b-4 border-black bg-bg-secondary flex justify-between items-center">
+      <div className="bg-white     shadow-brutal max-w-md w-full h-80 flex flex-col rounded-brutal">
+        <div className="p-3 border-b-2   bg-bg-secondary flex justify-between items-center rounded-t-brutal">
           <div>
-            <h3 className="text-lg font-black text-black">Chat about</h3>
-            <p className="text-sm text-black font-bold truncate bg-bg-primary p-1 border border-black">{productTitle}</p>
+            <h3 className="text-md font-black text-black">Chat about</h3>
+            <p className="text-sm text-black font-bold truncate bg-bg-primary p-1 border   rounded-brutal-xs">{productTitle}</p>
             <p className="text-xs text-black font-bold">with {sellerName}</p>
-            <p className="text-xs text-black font-black bg-primary p-1 border border-black">Listed at ${originalPrice}</p>
+            <p className="text-xs text-black font-black bg-primary p-1 border   rounded-brutal-xs">Listed at ${originalPrice}</p>
           </div>
-          <button onClick={onClose} className="text-black hover:bg-red-300 p-1 border-2 border-black bg-red-200">
-            <X size={24} />
+          <button onClick={onClose} className="text-black hover:bg-red-300 p-1 border   bg-red-200 rounded-brutal-xs">
+            <X size={20} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 overflow-y-auto p-3 space-y-2">
           {loading ? (
-            <div className="text-center text-black font-bold bg-bg-secondary p-3 border-2 border-black">Loading messages...</div>
+            <div className="text-center text-black font-bold bg-bg-secondary p-2 border   rounded-brutal-xs">Loading messages...</div>
           ) : messages.length === 0 ? (
-            <div className="text-center text-black bg-bg-secondary p-4 border-2 border-black">
-              <MessageCircle className="mx-auto mb-2" size={32} />
-              <p className="font-bold">Start a conversation about this product</p>
+            <div className="text-center text-black bg-bg-secondary p-3 border   rounded-brutal-sm">
+              <MessageCircle className="mx-auto mb-2" size={24} />
+              <p className="font-bold text-sm">Start a conversation about this product</p>
             </div>
           ) : (
             messages.map((message) => (
@@ -256,7 +256,7 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
                   <OfferMessage message={message} />
                 ) : (
                   <div className={`flex ${message.senderId === user.id ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-xs px-3 py-2 border-2 border-black shadow-brutal-sm ${
+                    <div className={`max-w-xs px-2 py-2 border   shadow-brutal-xs rounded-brutal-xs ${
                       message.senderId === user.id
                         ? 'bg-primary text-black'
                         : 'bg-bg-secondary text-black'
@@ -274,13 +274,13 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="p-4 border-t-4 border-black bg-bg-primary">
+        <div className="p-3 border-t-2   bg-bg-primary rounded-b-brutal">
           {user.id !== sellerId && (
             <button
               onClick={() => setShowOfferModal(true)}
-              className="w-full mb-3 bg-secondary text-black py-2 px-4 border-3 border-black shadow-brutal hover:bg-primary text-sm flex items-center justify-center space-x-1 font-black"
+              className="w-full mb-2 bg-secondary text-black py-2 px-3     shadow-brutal-xs hover:bg-primary text-xs flex items-center justify-center space-x-1 font-black rounded-brutal-xs"
             >
-              <DollarSign size={16} />
+              <DollarSign size={14} />
               <span>Make Offer</span>
             </button>
           )}
@@ -291,15 +291,15 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 border-3 border-black px-3 py-2 text-sm focus:outline-none bg-white font-bold"
+              className="flex-1     px-2 py-2 text-xs focus:outline-none bg-white font-bold rounded-brutal-xs"
               disabled={sending}
             />
             <button
               type="submit"
               disabled={sending || !newMessage.trim()}
-              className="bg-primary text-black px-3 py-2 border-3 border-black shadow-brutal-sm hover:bg-secondary disabled:opacity-50 font-black"
+              className="bg-primary text-black px-2 py-2     shadow-brutal-xs hover:bg-secondary disabled:opacity-50 font-black rounded-brutal-xs"
             >
-              <Send size={16} />
+              <Send size={14} />
             </button>
           </form>
         </div>
@@ -308,12 +308,12 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
       {/* Offer Modal */}
       {showOfferModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-60">
-          <div className="bg-white border-4 border-black shadow-brutal p-6 max-w-sm w-full">
-            <h3 className="text-lg font-black mb-4 bg-primary p-2 border-2 border-black">Make an Offer</h3>
-            <p className="text-sm text-black mb-4 font-bold bg-bg-secondary p-2 border border-black">
-              Listed price: <span className="font-black text-black bg-primary p-1 border border-black">${originalPrice}</span>
+          <div className="bg-white     shadow-brutal p-4 max-w-sm w-full rounded-brutal">
+            <h3 className="text-md font-black mb-3 bg-primary p-2 border   rounded-brutal-xs">Make an Offer</h3>
+            <p className="text-sm text-black mb-3 font-bold bg-bg-secondary p-2 border   rounded-brutal-xs">
+              Listed price: <span className="font-black text-black bg-primary p-1 border   rounded-brutal-xs">${originalPrice}</span>
             </p>
-            <div className="mb-4">
+            <div className="mb-3">
               <label className="block text-sm font-black text-black mb-2">
                 Your Offer ($)
               </label>
@@ -322,21 +322,21 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
                 value={offerAmount}
                 onChange={(e) => setOfferAmount(e.target.value)}
                 placeholder="Enter your offer amount"
-                className="w-full border-3 border-black px-3 py-2 focus:outline-none bg-bg-primary font-bold"
+                className="w-full     px-2 py-2 focus:outline-none bg-bg-primary font-bold text-sm rounded-brutal-xs"
                 min="0"
                 step="0.01"
               />
             </div>
-            <div className="flex space-x-3">
+            <div className="flex space-x-2">
               <button
                 onClick={() => setShowOfferModal(false)}
-                className="flex-1 px-4 py-2 border-3 border-black text-black bg-bg-secondary hover:bg-bg-primary font-bold"
+                className="flex-1 px-3 py-2     text-black bg-bg-secondary hover:bg-bg-primary font-bold text-sm rounded-brutal-xs"
               >
                 Cancel
               </button>
               <button
                 onClick={handleMakeOffer}
-                className="flex-1 px-4 py-2 bg-primary text-black border-3 border-black shadow-brutal-sm hover:bg-secondary font-black"
+                className="flex-1 px-3 py-2 bg-primary text-black     shadow-brutal-xs hover:bg-secondary font-black text-sm rounded-brutal-xs"
               >
                 Send Offer
               </button>

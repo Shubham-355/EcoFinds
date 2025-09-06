@@ -21,53 +21,53 @@ const ProductCard = ({
   const isOwner = user && product.user && user.id === product.user.id;
 
   return (
-    <div className={`bg-white border-4 border-black shadow-brutal overflow-hidden hover:shadow-brutal-lg transition-all ${
-      isSelected ? 'ring-4 ring-primary' : ''
+    <div className={`bg-white brutal-border shadow-brutal-sm overflow-hidden hover:shadow-brutal transition-all rounded-brutal ${
+      isSelected ? 'ring-2 ring-primary' : ''
     }`}>
       {showSelection && showActions && isOwner && (
-        <div className="p-2 border-b-3 border-black bg-bg-secondary">
+        <div className="p-2 border-b-2   bg-bg-secondary">
           <input
             type="checkbox"
             checked={isSelected}
             onChange={() => onSelect(product.id)}
-            className="h-5 w-5 border-2 border-black shadow-brutal-sm focus:ring-0"
+            className="h-4 w-4     shadow-brutal-xs focus:ring-0"
           />
         </div>
       )}
 
       <Link to={`/product/${product.id}`}>
-        <div className="aspect-w-16 aspect-h-12 bg-bg-secondary border-b-4 border-black">
+        <div className="aspect-w-16 aspect-h-12 bg-bg-secondary border-b-2  ">
           <img
             src={product.image || '/api/placeholder/300/200'}
             alt={product.title}
-            className="w-full h-48 object-cover"
+            className="w-full h-36 object-cover"
           />
         </div>
       </Link>
       
-      <div className="p-4">
+      <div className="p-3 bg-bg-primary">
         <Link to={`/product/${product.id}`}>
-          <h3 className="font-black text-lg mb-2 hover:bg-primary p-1 border-2 border-black shadow-brutal-sm">
+          <h3 className="font-black text-md mb-2 hover:bg-primary p-1 shadow-brutal-xs transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none">
             {product.title}
           </h3>
         </Link>
         
-        <p className="text-black text-sm mb-2 font-bold bg-bg-primary p-2 border-2 border-black">
+        <p className="text-black text-xs mb-2 font-bold bg-white p-1 line-clamp-2">
           {product.description}
         </p>
         
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-2xl font-black text-black bg-primary p-2 border-3 border-black shadow-brutal-sm">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-lg font-black text-black bg-primary p-1 shadow-brutal-xs">
             ${product.price}
           </span>
           <div className="flex flex-col items-end space-y-1">
             {product.category && (
-              <span className="bg-bg-secondary text-black px-2 py-1 border-2 border-black text-xs font-bold">
+              <span className="bg-bg-secondary text-black px-1 py-0.5 text-xs font-bold">
                 {product.category.name}
               </span>
             )}
             {!product.isAvailable && (
-              <span className="bg-red-300 text-black px-2 py-1 border-2 border-black text-xs font-black">
+              <span className="bg-red-300 text-black px-1 py-0.5 text-xs font-black">
                 SOLD
               </span>
             )}
@@ -75,55 +75,52 @@ const ProductCard = ({
         </div>
 
         {product.user && (
-          <p className="text-sm text-black mb-3 font-bold bg-bg-secondary p-1 border-2 border-black">
+          <p className="text-xs text-black mb-2 font-bold bg-bg-secondary p-1">
             by {product.user.username}
           </p>
         )}
         
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-1">
           {showActions && isOwner ? (
             <>
-              <div className="flex space-x-2">
+              <div className="flex space-x-1">
                 <button
                   onClick={() => onEdit(product)}
                   disabled={!product.isAvailable}
-                  className={`flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm font-black ${
+                  className={`flex-1 py-1 px-2 brutal-btn text-xs ${
                     product.isAvailable 
-                      ? 'bg-secondary text-black hover:bg-primary' 
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ? 'brutal-btn-secondary hover:brutal-btn-primary' 
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed border border-gray-400'
                   }`}
                   title={!product.isAvailable ? 'Cannot edit sold products' : 'Edit product'}
                 >
-                  <Edit size={14} />
+                  <Edit size={12} className="inline mr-1" />
                   <span>Edit</span>
                 </button>
                 <button
                   onClick={() => onDuplicate && onDuplicate(product.id)}
-                  className="flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm bg-bg-secondary text-black hover:bg-primary font-black"
+                  className="flex-1 brutal-btn brutal-btn-secondary text-xs flex items-center justify-center space-x-1"
                   title="Duplicate product"
                 >
-                  <span>📋</span>
                   <span>Copy</span>
                 </button>
               </div>
 
-              <div className="flex space-x-2">
+              <div className="flex space-x-1">
                 {product.isAvailable ? (
                   <button
                     onClick={() => onMarkAsSold && onMarkAsSold(product.id)}
-                    className="flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm bg-secondary text-black hover:bg-primary font-black"
+                    className="flex-1 brutal-btn brutal-btn-secondary text-xs flex items-center justify-center space-x-1"
                     title="Mark as sold"
                   >
-                    <span>💰</span>
                     <span>Mark Sold</span>
                   </button>
                 ) : (
                   <button
                     onClick={() => onMarkAsAvailable && onMarkAsAvailable(product.id)}
-                    className="flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm bg-primary text-black hover:bg-secondary font-black"
+                    className="flex-1 brutal-btn brutal-btn-primary text-xs flex items-center justify-center space-x-1"
                     title="Mark as available"
                   >
-                    <span>🔄</span>
                     <span>Available</span>
                   </button>
                 )}
@@ -131,14 +128,14 @@ const ProductCard = ({
                 <button
                   onClick={() => onDelete(product.id)}
                   disabled={!product.isAvailable}
-                  className={`flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm font-black ${
+                  className={`flex-1 py-1 px-2 text-xs font-black ${
                     product.isAvailable 
-                      ? 'bg-red-300 text-black hover:bg-red-400' 
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ? 'bg-red-300 text-black hover:bg-red-400     shadow-brutal-xs' 
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed border border-gray-400'
                   }`}
                   title={!product.isAvailable ? 'Cannot delete sold products' : 'Delete product'}
                 >
-                  <Trash2 size={14} />
+                  <Trash2 size={12} className="inline mr-1" />
                   <span>Delete</span>
                 </button>
               </div>
@@ -147,16 +144,16 @@ const ProductCard = ({
             !isOwner && product.isAvailable && (
               <button
                 onClick={() => onChatClick && onChatClick(product)}
-                className="w-full bg-primary text-black py-2 px-4 border-3 border-black shadow-brutal hover:bg-secondary flex items-center justify-center space-x-1 font-black"
+                className="w-full brutal-btn brutal-btn-primary flex items-center justify-center space-x-1"
               >
-                <MessageCircle size={16} />
+                <MessageCircle size={12} />
                 <span>Chat</span>
               </button>
             )
           )}
           
           {!product.isAvailable && !showActions && (
-            <div className="w-full bg-gray-300 text-black py-2 px-4 border-3 border-black text-center font-black">
+            <div className="w-full bg-gray-300 text-black py-1 px-2     text-center text-xs font-black">
               Sold Out
             </div>
           )}

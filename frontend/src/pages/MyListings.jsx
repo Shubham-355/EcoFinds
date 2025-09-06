@@ -158,25 +158,25 @@ const MyListings = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-black text-black bg-primary p-4 border-4 border-black shadow-brutal">
-            My Listings
+      <div className="space-y-4">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="brutal-header text-2xl bg-primary px-6 py-3     shadow-brutal-sm rounded-brutal">
+            MY LISTINGS
           </h1>
-          <div className="flex space-x-3">
+          <div className="flex space-x-2">
             {selectedProducts.length > 0 && (
               <button
                 onClick={() => setShowBulkActions(!showBulkActions)}
-                className="bg-bg-secondary text-black px-4 py-2 border-3 border-black shadow-brutal hover:bg-primary flex items-center space-x-2 font-black"
+                className="brutal-btn brutal-btn-secondary flex items-center space-x-2 rounded-brutal"
               >
                 <span>Bulk Actions ({selectedProducts.length})</span>
               </button>
             )}
             <Link
               to="/add-product"
-              className="bg-primary text-black px-4 py-2 border-3 border-black shadow-brutal hover:bg-secondary flex items-center space-x-2 font-black"
+              className="brutal-btn brutal-btn-primary flex items-center space-x-2 rounded-brutal"
             >
-              <Plus size={20} />
+              <Plus size={16} />
               <span>Add Product</span>
             </Link>
           </div>
@@ -184,15 +184,15 @@ const MyListings = () => {
 
         {/* Bulk Actions */}
         {showBulkActions && selectedProducts.length > 0 && (
-          <div className="bg-secondary border-4 border-black shadow-brutal p-4">
+          <div className="brutal-card p-3 mb-4 bg-yellow-50 rounded-brutal">
             <div className="flex items-center justify-between">
-              <span className="text-black font-black">
+              <span className="text-black font-bold text-sm">
                 {selectedProducts.length} product(s) selected
               </span>
               <div className="flex space-x-2">
                 <button
                   onClick={handleBulkDelete}
-                  className="bg-red-300 text-black px-3 py-1 border-2 border-black shadow-brutal-sm text-sm hover:bg-red-400 font-bold"
+                  className="brutal-btn brutal-btn-secondary hover:bg-red-100 text-xs px-3 py-1 rounded-brutal-xs"
                 >
                   Delete Selected
                 </button>
@@ -201,7 +201,7 @@ const MyListings = () => {
                     setSelectedProducts([]);
                     setShowBulkActions(false);
                   }}
-                  className="bg-bg-secondary text-black px-3 py-1 border-2 border-black shadow-brutal-sm text-sm hover:bg-bg-primary font-bold"
+                  className="brutal-btn brutal-btn-secondary text-xs px-3 py-1 rounded-brutal-xs"
                 >
                   Cancel
                 </button>
@@ -211,17 +211,22 @@ const MyListings = () => {
         )}
 
         {loading ? (
-          <div className="text-center py-12 bg-bg-secondary border-4 border-black shadow-brutal">
-            <div className="text-2xl font-black text-black">Loading your products...</div>
+          <div className="text-center py-12 brutal-card rounded-brutal">
+            <div className="text-md font-bold text-black bg-primary px-4 py-2     inline-block shadow-brutal-sm rounded-brutal">
+              Loading your products...
+            </div>
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-12 bg-bg-secondary border-4 border-black shadow-brutal">
-            <p className="text-black mb-4 font-bold text-lg">You haven't listed any products yet.</p>
+          <div className="text-center py-12 brutal-card rounded-brutal">
+            <div className="bg-primary p-3     inline-block mb-4 shadow-brutal-sm rounded-brutal-sm">
+              <Plus size={32} className="text-black" />
+            </div>
+            <p className="text-black mb-4 font-bold text-md">You haven't listed any products yet.</p>
             <Link
               to="/add-product"
-              className="bg-primary text-black px-4 py-2 border-3 border-black shadow-brutal hover:bg-secondary inline-flex items-center space-x-2 font-black"
+              className="brutal-btn brutal-btn-primary flex items-center space-x-2 mx-auto w-fit rounded-brutal"
             >
-              <Plus size={20} />
+              <Plus size={16} />
               <span>Add Your First Product</span>
             </Link>
           </div>
@@ -229,25 +234,25 @@ const MyListings = () => {
           <>
             {/* Stats Summary */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-white p-4 border-4 border-black shadow-brutal">
-                <h3 className="text-sm font-black text-black bg-bg-secondary p-1 border border-black">Total Listings</h3>
-                <p className="text-2xl font-black text-black bg-primary p-2 border-2 border-black mt-2">{products.length}</p>
+              <div className="brutal-card p-4 rounded-brutal">
+                <h3 className="text-xs font-bold text-gray-600 mb-2 bg-bg-secondary p-1   rounded-brutal-xs">TOTAL LISTINGS</h3>
+                <p className="text-2xl font-black text-black bg-primary p-2     rounded-brutal-sm">{products.length}</p>
               </div>
-              <div className="bg-white p-4 border-4 border-black shadow-brutal">
-                <h3 className="text-sm font-black text-black bg-bg-secondary p-1 border border-black">Available</h3>
-                <p className="text-2xl font-black text-black bg-primary p-2 border-2 border-black mt-2">
+              <div className="brutal-card p-4 rounded-brutal">
+                <h3 className="text-xs font-bold text-gray-600 mb-2 bg-bg-secondary p-1     rounded-brutal-xs">AVAILABLE</h3>
+                <p className="text-2xl font-black text-black bg-secondary p-2     rounded-brutal-sm">
                   {products.filter(p => p.isAvailable).length}
                 </p>
               </div>
-              <div className="bg-white p-4 border-4 border-black shadow-brutal">
-                <h3 className="text-sm font-black text-black bg-bg-secondary p-1 border border-black">Sold</h3>
-                <p className="text-2xl font-black text-black bg-secondary p-2 border-2 border-black mt-2">
+              <div className="brutal-card p-4 rounded-brutal">
+                <h3 className="text-xs font-bold text-gray-600 mb-2 bg-bg-secondary p-1     rounded-brutal-xs">SOLD</h3>
+                <p className="text-2xl font-black text-black p-2     rounded-brutal-sm">
                   {products.filter(p => !p.isAvailable).length}
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {products.map((product) => (
                 <ProductCard
                   key={product.id}

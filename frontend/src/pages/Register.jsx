@@ -67,30 +67,31 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg-primary p-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-white p-4">
+      <div className="max-w-md w-full space-y-6">
         <div className="text-center">
-          <div className="bg-primary p-4 border-4 border-black shadow-brutal mb-4 inline-block">
-            <h2 className="text-4xl font-black text-black">EcoFinds</h2>
+          <div className="brutal-card p-8 mb-6 rounded-brutal">
+            <h2 className="brutal-header text-4xl mb-2 rounded-brutal inline-block">EcoFinds</h2>
+            <p className="text-lg font-semibold text-gray-700">Second-Hand Marketplace</p>
           </div>
-          <h3 className="text-2xl font-bold text-black bg-bg-secondary p-3 border-3 border-black shadow-brutal-sm">
-            Create your account
+          <h3 className="text-2xl font-bold text-black bg-primary px-6 py-3 rounded-brutal shadow-brutal inline-block border-3  ">
+            JOIN THE REVOLUTION!
           </h3>
         </div>
         
-        <form className="mt-8 space-y-6 bg-white p-6 border-4 border-black shadow-brutal" onSubmit={handleSubmit}>
+        <form className="brutal-card p-8 space-y-6 rounded-brutal" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-300 border-3 border-black text-black px-4 py-3 shadow-brutal-sm font-bold">
+            <div className="bg-red-100 border-3   text-black px-6 py-4 shadow-brutal font-black animate-pulse rounded-brutal">
               {error}
             </div>
           )}
           
           <div>
-            <label className="block text-sm font-bold text-black mb-2">
-              Profile Photo (Optional)
+            <label className="block text-base font-black text-black mb-2 bg-warning p-2     shadow-brutal-sm inline-block rounded-brutal-sm">
+              PROFILE PHOTO
             </label>
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-bg-secondary border-3 border-black shadow-brutal-sm flex items-center justify-center overflow-hidden">
+              <div className="w-16 h-16 bg-bg-secondary border-3   shadow-brutal-sm flex items-center justify-center overflow-hidden hover:bg-primary transition-all rounded-brutal-sm">
                 {preview ? (
                   <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                 ) : (
@@ -102,14 +103,14 @@ const Register = () => {
                 name="profilePhoto"
                 accept="image/*"
                 onChange={handleChange}
-                className="block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:border-3 file:border-black file:bg-secondary file:text-black file:font-bold file:shadow-brutal-sm hover:file:bg-primary"
+                className="block w-full text-sm text-black font-bold file:mr-3 file:py-2 file:px-3 file:  file:  file:bg-secondary file:text-black file:font-bold file:shadow-brutal-sm hover:file:bg-primary file:hover:shadow-brutal file:transition-all file:rounded-brutal-sm rounded-brutal-sm"
               />
             </div>
           </div>
           
           <div>
-            <label htmlFor="username" className="block text-sm font-bold text-black">
-              Username
+            <label htmlFor="username" className="block text-base font-black text-black bg-warning p-2     shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
+              USERNAME
             </label>
             <input
               id="username"
@@ -118,13 +119,14 @@ const Register = () => {
               required
               value={formData.username}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:ring-0 focus:bg-white font-bold"
+              className="brutal-input w-full rounded-brutal"
+              placeholder="Enter your username"
             />
           </div>
           
           <div>
-            <label htmlFor="email" className="block text-sm font-bold text-black">
-              Email address
+            <label htmlFor="email" className="block text-base font-black text-black bg-warning p-2     shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
+              EMAIL ADDRESS
             </label>
             <input
               id="email"
@@ -133,13 +135,14 @@ const Register = () => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:ring-0 focus:bg-white font-bold"
+              className="brutal-input w-full rounded-brutal"
+              placeholder="Enter your email"
             />
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-sm font-bold text-black">
-              Password
+            <label htmlFor="password" className="block text-base font-black text-black bg-warning p-2     shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
+              PASSWORD
             </label>
             <input
               id="password"
@@ -148,21 +151,22 @@ const Register = () => {
               required
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:ring-0 focus:bg-white font-bold"
+              className="brutal-input w-full rounded-brutal"
+              placeholder="Enter your password"
             />
           </div>
           
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center py-3 px-4 border-3 border-black shadow-brutal text-lg font-black text-black bg-primary hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full brutal-btn brutal-btn-primary text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed rounded-brutal"
           >
-            {loading ? 'Creating account...' : 'Sign up'}
+            {loading ? 'CREATING...' : 'SIGN UP NOW'}
           </button>
           
-          <div className="text-center">
-            <Link to="/login" className="text-black font-bold hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary">
-              Already have an account? Sign in
+          <div className="text-center pt-4">
+            <Link to="/login" className="brutal-btn brutal-btn-secondary text-sm rounded-brutal">
+              Already have an account? SIGN IN
             </Link>
           </div>
         </form>

@@ -109,27 +109,27 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Edit Product</h2>
+      <div className="bg-white     shadow-brutal max-w-2xl w-full max-h-screen overflow-y-auto rounded-brutal">
+        <div className="p-4">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-black text-black bg-primary p-2 border   rounded-brutal-sm">Edit Product</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-black hover:bg-red-300 p-1 border   bg-red-200 rounded-brutal-xs"
             >
-              <X size={24} />
+              <X size={20} />
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-3">
             {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              <div className="bg-red-300     text-black px-3 py-2 font-bold rounded-brutal-sm">
                 {error}
               </div>
             )}
 
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="title" className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1 border   rounded-brutal-xs inline-block">
                 Product Title *
               </label>
               <input
@@ -139,12 +139,12 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
                 required
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="w-full px-2 py-2     shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal-sm"
               />
             </div>
 
             <div>
-              <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="categoryId" className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1 border   rounded-brutal-xs inline-block">
                 Category *
               </label>
               <select
@@ -153,7 +153,7 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
                 required
                 value={formData.categoryId}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="w-full px-2 py-2     shadow-brutal-xs bg-bg-secondary focus:outline-none font-bold rounded-brutal-sm"
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
@@ -165,22 +165,22 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
             </div>
 
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="description" className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1 border   rounded-brutal-xs inline-block">
                 Description *
               </label>
               <textarea
                 id="description"
                 name="description"
                 required
-                rows={4}
+                rows={3}
                 value={formData.description}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="w-full px-2 py-2     shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal-sm"
               />
             </div>
 
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="price" className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1 border   rounded-brutal-xs inline-block">
                 Price ($) *
               </label>
               <input
@@ -192,24 +192,24 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
                 step="0.01"
                 value={formData.price}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="w-full px-2 py-2     shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1 border   rounded-brutal-xs inline-block">
                 Product Image
               </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-md p-6">
+              <div className="    bg-bg-secondary p-4 rounded-brutal-sm">
                 {preview ? (
                   <div className="text-center">
-                    <img src={preview} alt="Preview" className="mx-auto h-32 w-32 object-cover rounded" />
-                    <p className="mt-2 text-sm text-gray-600">Click to change image</p>
+                    <img src={preview} alt="Preview" className="mx-auto h-24 w-24 object-cover border   rounded-brutal-xs" />
+                    <p className="mt-2 text-xs text-black font-bold">Click to change image</p>
                   </div>
                 ) : (
                   <div className="text-center">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-sm text-gray-600">Click to upload an image</p>
+                    <Upload className="mx-auto h-8 w-8 text-black" />
+                    <p className="mt-2 text-xs text-black font-bold">Click to upload an image</p>
                   </div>
                 )}
                 <input
@@ -217,37 +217,37 @@ const EditProductModal = ({ product, onClose, onUpdate }) => {
                   name="image"
                   accept="image/*"
                   onChange={handleChange}
-                  className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+                  className="mt-2 block w-full text-xs text-black file:mr-2 file:py-1 file:px-2 file:  file:  file:bg-secondary file:text-black file:font-bold file:shadow-brutal-xs hover:file:bg-primary file:rounded-brutal-xs rounded-brutal-xs"
                 />
               </div>
             </div>
 
-            <div className="flex items-center">
+            <div className="flex items-center p-2 bg-bg-primary border   rounded-brutal-xs">
               <input
                 type="checkbox"
                 id="isAvailable"
                 name="isAvailable"
                 checked={formData.isAvailable}
                 onChange={handleChange}
-                className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                className="h-4 w-4     shadow-brutal-xs focus:ring-0 rounded-brutal-xs"
               />
-              <label htmlFor="isAvailable" className="ml-2 block text-sm text-gray-900">
+              <label htmlFor="isAvailable" className="ml-2 block text-xs font-black text-black">
                 Available for sale
               </label>
             </div>
 
-            <div className="flex justify-end space-x-4">
+            <div className="flex justify-end space-x-2 mt-4">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="px-3 py-2     shadow-brutal-xs text-black bg-bg-secondary hover:bg-bg-primary font-bold rounded-brutal-sm"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
+                className="px-3 py-2 bg-primary text-black     shadow-brutal-xs hover:bg-secondary disabled:opacity-50 font-black rounded-brutal-sm"
               >
                 {loading ? 'Updating...' : 'Update Product'}
               </button>
