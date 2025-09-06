@@ -38,7 +38,13 @@ router.get('/', authenticateToken, async (req, res) => {
       }
     });
 
-    res.json({ orders });
+    // Transform the response to match frontend expectations
+    const transformedOrders = orders.map(order => ({
+      ...order,
+      items: order.orderItems // Map orderItems to items
+    }));
+
+    res.json({ orders: transformedOrders });
   } catch (error) {
     console.error('Get orders error:', error);
     res.status(500).json({ error: 'Failed to fetch orders' });
@@ -145,6 +151,124 @@ router.post('/checkout', authenticateToken, async (req, res) => {
     });
   } catch (error) {
     console.error('Checkout error:', error);
+    res.status(500).json({ error: 'Failed to create order' });
+  }
+});
+
+// Create order directly from chat (single product)
+router.post('/checkout-direct', authenticateToken, async (req, res) => {
+  try {
+    const { productId, agreedPrice } = req.body;
+
+    console.log('Direct checkout request:', {
+      userId: req.user.id,
+      productId,
+      agreedPrice
+    });
+
+    // Get product details
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      include: {
+        user: true
+      }
+    });
+
+    if (!product) {
+      console.log('Product not found:', productId);
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    console.log('Product details:', {
+      productId: product.id,
+      productUserId: product.userId,
+      currentUserId: req.user.id,
+      isAvailable: product.isAvailable
+    });
+
+    if (!product.isAvailable) {
+      console.log('Product not available:', productId);
+      return res.status(400).json({ error: 'Product is no longer available' });
+    }
+
+    if (product.userId === req.user.id) {
+      console.log('User trying to buy own product:', {
+        productUserId: product.userId,
+        currentUserId: req.user.id
+      });
+      return res.status(400).json({ error: 'Cannot purchase your own product' });
+    }
+
+    // Use agreed price if provided, otherwise use original price
+    const finalPrice = agreedPrice || product.price;
+
+    console.log('Creating order with final price:', finalPrice);
+
+    // Create order with transaction
+    const order = await prisma.$transaction(async (tx) => {
+      // Create order
+      const newOrder = await tx.order.create({
+        data: {
+          userId: req.user.id,
+          totalAmount: finalPrice,
+          status: 'COMPLETED',
+        }
+      });
+
+      // Create order item
+      await tx.orderItem.create({
+        data: {
+          orderId: newOrder.id,
+          productId: product.id,
+          quantity: 1,
+          price: finalPrice,
+        }
+      });
+
+      // Mark product as unavailable
+      await tx.product.update({
+        where: { id: productId },
+        data: { isAvailable: false }
+      });
+
+      return newOrder;
+    });
+
+    // Fetch complete order data
+    const completeOrder = await prisma.order.findUnique({
+      where: { id: order.id },
+      include: {
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    username: true,
+                  }
+                },
+                category: {
+                  select: {
+                    id: true,
+                    name: true,
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    console.log('Order created successfully:', order.id);
+
+    res.status(201).json({
+      message: 'Order created successfully',
+      order: completeOrder
+    });
+  } catch (error) {
+    console.error('Direct checkout error:', error);
     res.status(500).json({ error: 'Failed to create order' });
   }
 });

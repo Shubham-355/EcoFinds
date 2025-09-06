@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, User } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, User, MessageCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Layout from '../components/Layout';
+import ChatModal from '../components/ChatModal';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     fetchProduct();
@@ -37,6 +39,26 @@ const ProductDetail = () => {
     } catch (error) {
       console.error('Error adding to cart:', error);
       alert('Failed to add product to cart');
+    }
+  };
+
+  const handleOrderAgreed = async (agreedPrice = null) => {
+    try {
+      const payload = {
+        productId: id,
+      };
+      
+      if (agreedPrice) {
+        payload.agreedPrice = agreedPrice;
+      }
+      
+      await api.post('/orders/checkout-direct', payload);
+      alert('Order completed successfully!');
+      setShowChat(false);
+      navigate('/orders');
+    } catch (error) {
+      console.error('Error completing order:', error);
+      alert('Failed to complete order');
     }
   };
 
@@ -128,11 +150,11 @@ const ProductDetail = () => {
               <div className="space-y-4">
                 {!isOwner && product.isAvailable && (
                   <button
-                    onClick={handleAddToCart}
+                    onClick={() => setShowChat(true)}
                     className="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 flex items-center justify-center space-x-2 text-lg font-semibold"
                   >
-                    <ShoppingCart size={20} />
-                    <span>Add to Cart</span>
+                    <MessageCircle size={20} />
+                    <span>Chat with Seller</span>
                   </button>
                 )}
 
@@ -158,6 +180,18 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+
+        {showChat && (
+          <ChatModal
+            productId={product.id}
+            sellerId={product.user.id}
+            sellerName={product.user.username}
+            productTitle={product.title}
+            originalPrice={product.price}
+            onClose={() => setShowChat(false)}
+            onOrderAgreed={handleOrderAgreed}
+          />
+        )}
       </div>
     </Layout>
   );

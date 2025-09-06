@@ -104,4 +104,31 @@ router.put('/profile', authenticateToken, upload.single('profilePhoto'), async (
   }
 });
 
+// Get user dashboard stats
+router.get('/dashboard', authenticateToken, async (req, res) => {
+  try {
+    const [totalListings, totalOrders, totalRevenue] = await Promise.all([
+      prisma.product.count({
+        where: { userId: req.user.id }
+      }),
+      prisma.order.count({
+        where: { userId: req.user.id }
+      }),
+      prisma.order.aggregate({
+        where: { userId: req.user.id },
+        _sum: { totalAmount: true }
+      })
+    ]);
+
+    res.json({
+      totalListings,
+      totalOrders,
+      totalRevenue: totalRevenue._sum.totalAmount || 0
+    });
+  } catch (error) {
+    console.error('Dashboard stats error:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard stats' });
+  }
+});
+
 export default router;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { ShoppingCart, User, LogOut, Package, Home } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Package, Home, MessageCircle } from 'lucide-react';
 
 const Layout = ({ children }) => {
   const { user, logout } = useAuth();
@@ -42,6 +42,12 @@ const Layout = ({ children }) => {
                 <User size={20} />
                 <span>Profile</span>
               </Link>
+              {user && (
+                <Link to="/messages" className="text-gray-700 hover:text-green-600 flex items-center space-x-1">
+                  <MessageCircle size={20} />
+                  <span>Messages</span>
+                </Link>
+              )}
               <button
                 onClick={handleLogout}
                 className="flex items-center space-x-1 text-gray-600 hover:text-gray-900"

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Edit, Trash2 } from 'lucide-react';
+import { ShoppingCart, Edit, Trash2, MessageCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const ProductCard = ({ product, onEdit, onDelete, showActions = false, onAddToCart }) => {
+const ProductCard = ({ product, onEdit, onDelete, showActions = false, onChatClick }) => {
   const { user } = useAuth();
   
   const isOwner = user && product.user && user.id === product.user.id;
@@ -69,11 +69,11 @@ const ProductCard = ({ product, onEdit, onDelete, showActions = false, onAddToCa
           ) : (
             !isOwner && (
               <button
-                onClick={() => onAddToCart && onAddToCart(product.id)}
+                onClick={() => onChatClick && onChatClick(product)}
                 className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 flex items-center justify-center space-x-1"
               >
-                <ShoppingCart size={16} />
-                <span>Add to Cart</span>
+                <MessageCircle size={16} />
+                <span>Chat</span>
               </button>
             )
           )}
