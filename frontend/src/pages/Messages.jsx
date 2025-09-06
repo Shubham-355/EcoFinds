@@ -29,7 +29,7 @@ const Messages = () => {
     setSelectedChat(chat);
   };
 
-  const handleOrderAgreed = async (agreedPrice = null) => {
+  const handleOrderAgreed = async (agreedPrice = null, buyerId = null) => {
     try {
       const payload = {
         productId: selectedChat.product.id,
@@ -37,6 +37,10 @@ const Messages = () => {
       
       if (agreedPrice) {
         payload.agreedPrice = agreedPrice;
+      }
+      
+      if (buyerId) {
+        payload.buyerId = buyerId;
       }
       
       await api.post('/orders/checkout-direct', payload);

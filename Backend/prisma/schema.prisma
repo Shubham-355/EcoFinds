@@ -9,18 +9,18 @@ datasource db {
 }
 
 model User {
-  id              String     @id @default(cuid())
-  username        String     @unique
-  email           String     @unique
-  password        String
-  profilePhoto    String?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  cartItems       CartItem[]
-  orders          Order[]
-  products        Product[]
-  sentMessages    Message[]  @relation("SentMessages")
+  id               String     @id @default(cuid())
+  username         String     @unique
+  email            String     @unique
+  password         String
+  profilePhoto     String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  cartItems        CartItem[]
   receivedMessages Message[]  @relation("ReceivedMessages")
+  sentMessages     Message[]  @relation("SentMessages")
+  orders           Order[]
+  products         Product[]
 
   @@map("users")
 }
@@ -45,8 +45,8 @@ model Product {
   userId      String
   categoryId  String
   cartItems   CartItem[]
+  messages    Message[]
   orderItems  OrderItem[]
-  messages     Message[]
   category    Category    @relation(fields: [categoryId], references: [id])
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -96,19 +96,18 @@ model Message {
   senderId        String
   receiverId      String
   productId       String
-  isOffer         Boolean  @default(false)
-  isCounterOffer  Boolean  @default(false)
-  isOfferResponse Boolean  @default(false)
-  offerAmount     Float?
-  offerAccepted   Boolean?
-  originalOfferId String?
-  responded       Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-
-  sender    User    @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
-  receiver  User    @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  isCounterOffer  Boolean  @default(false)
+  isOffer         Boolean  @default(false)
+  isOfferResponse Boolean  @default(false)
+  offerAccepted   Boolean?
+  offerAmount     Float?
+  originalOfferId String?
+  responded       Boolean  @default(false)
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  receiver        User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender          User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
 
   @@map("messages")
 }

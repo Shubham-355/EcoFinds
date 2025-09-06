@@ -130,8 +130,9 @@ const ChatModal = ({ productId, sellerId, sellerName, productTitle, originalPric
         const agreedPrice = originalOffer?.offerAmount || originalPrice;
         
         // Close chat modal and complete order with agreed price
+        // Pass the buyer ID since the seller is completing the order
         setTimeout(() => {
-          onOrderAgreed(agreedPrice);
+          onOrderAgreed(agreedPrice, buyerId);
         }, 500);
       }
     } catch (error) {

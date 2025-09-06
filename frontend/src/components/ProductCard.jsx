@@ -35,11 +35,18 @@ const ProductCard = ({ product, onEdit, onDelete, showActions = false, onChatCli
           <span className="text-2xl font-bold text-green-600">
             ${product.price}
           </span>
-          {product.category && (
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
-              {product.category.name}
-            </span>
-          )}
+          <div className="flex flex-col items-end space-y-1">
+            {product.category && (
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                {product.category.name}
+              </span>
+            )}
+            {!product.isAvailable && (
+              <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-medium">
+                SOLD
+              </span>
+            )}
+          </div>
         </div>
 
         {product.user && (
@@ -53,21 +60,31 @@ const ProductCard = ({ product, onEdit, onDelete, showActions = false, onChatCli
             <>
               <button
                 onClick={() => onEdit(product)}
-                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex items-center justify-center space-x-1"
+                disabled={!product.isAvailable}
+                className={`flex-1 py-2 px-4 rounded-md flex items-center justify-center space-x-1 ${
+                  product.isAvailable 
+                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
               >
                 <Edit size={16} />
-                <span>Edit</span>
+                <span>{product.isAvailable ? 'Edit' : 'Sold'}</span>
               </button>
               <button
                 onClick={() => onDelete(product.id)}
-                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 flex items-center justify-center space-x-1"
+                disabled={!product.isAvailable}
+                className={`flex-1 py-2 px-4 rounded-md flex items-center justify-center space-x-1 ${
+                  product.isAvailable 
+                    ? 'bg-red-600 text-white hover:bg-red-700' 
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
               >
                 <Trash2 size={16} />
                 <span>Delete</span>
               </button>
             </>
           ) : (
-            !isOwner && (
+            !isOwner && product.isAvailable && (
               <button
                 onClick={() => onChatClick && onChatClick(product)}
                 className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 flex items-center justify-center space-x-1"
@@ -76,6 +93,11 @@ const ProductCard = ({ product, onEdit, onDelete, showActions = false, onChatCli
                 <span>Chat</span>
               </button>
             )
+          )}
+          {!product.isAvailable && !showActions && (
+            <div className="w-full bg-gray-400 text-white py-2 px-4 rounded-md text-center">
+              Sold Out
+            </div>
           )}
         </div>
       </div>
