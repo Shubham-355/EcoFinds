@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import Layout from '../components/Layout';
-import ChatModal from '../components/ChatModal';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,8 +66,22 @@ const Home = () => {
     fetchProducts();
   };
 
-  const handleChatClick = (product) => {
-    setSelectedProduct(product);
+  const handleChatClick = async (product) => {
+    try {
+      // Create initial message to start conversation
+      await api.post('/chat/send', {
+        productId: product.id,
+        receiverId: product.user.id,
+        content: `Hi! I'm interested in your product: ${product.title}`,
+      });
+      
+      // Navigate to messages page
+      navigate('/messages');
+    } catch (error) {
+      console.error('Error starting chat:', error);
+      // If error, still navigate to messages page
+      navigate('/messages');
+    }
   };
 
   const handleOrderAgreed = async (agreedPrice = null, buyerId = null) => {
@@ -97,22 +111,23 @@ const Home = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
-          <h1 className="brutal-header text-2xl bg-primary px-6 py-3     shadow-brutal-sm rounded-brutal">
-            BROWSE PRODUCTS
-          </h1>
-          <Link
-            to="/add-product"
-            className="brutal-btn brutal-btn-primary flex items-center space-x-2 rounded-brutal"
-          >
-            <Plus size={16} />
-            <span>ADD PRODUCT</span>
-          </Link>
-        </div>
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
+            <h1 className="brutal-header text-2xl bg-primary px-6 py-3 shadow-brutal-sm rounded-brutal">
+              BROWSE PRODUCTS
+            </h1>
+            <Link
+              to="/add-product"
+              className="brutal-btn brutal-btn-primary flex items-center space-x-2 rounded-brutal"
+            >
+              <Plus size={16} />
+              <span>ADD PRODUCT</span>
+            </Link>
+          </div>
 
-        {/* Search and Filters */}
+          {/* Search and Filters */}
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3">
             <div className="flex-1">
               <div className="relative">
@@ -151,69 +166,60 @@ const Home = () => {
             </div>
           </form>
 
-        {/* Products Grid */}
-        {loading ? (
-          <div className="text-center py-12 brutal-card rounded-brutal">
-            <div className="text-md font-bold text-black bg-primary px-4 py-2     inline-block rounded-brutal shadow-brutal-sm">
-              Loading products...
+          {/* Products Grid */}
+          {loading ? (
+            <div className="text-center py-12 brutal-card rounded-brutal">
+              <div className="text-md font-bold text-black bg-primary px-4 py-2     inline-block rounded-brutal shadow-brutal-sm">
+                Loading products...
+              </div>
             </div>
-          </div>
-        ) : products.length === 0 ? (
-          <div className="text-center py-12 brutal-card rounded-brutal">
-            <div className="text-md font-bold text-black bg-gray-100 px-4 py-2     inline-block mb-4 rounded-brutal shadow-brutal-sm">
-              No products found
-            </div>
-            <Link 
-              to="/add-product"
-              className="brutal-btn brutal-btn-primary rounded-brutal"
-            >
-              Add First Product
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onAddToCart={handleAddToCart}
-                onChatClick={handleChatClick}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center space-x-1 flex-wrap mt-6">
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`brutal-btn px-3 py-1 rounded-brutal text-xs ${
-                  currentPage === i + 1
-                    ? 'brutal-btn-primary'
-                    : 'brutal-btn-secondary'
-                }`}
+          ) : products.length === 0 ? (
+            <div className="text-center py-12 brutal-card rounded-brutal">
+              <div className="text-md font-bold text-black bg-gray-100 px-4 py-2     inline-block mb-4 rounded-brutal shadow-brutal-sm">
+                No products found
+              </div>
+              <Link 
+                to="/add-product"
+                className="brutal-btn brutal-btn-primary rounded-brutal"
               >
-                {i + 1}
-              </button>
-            ))}
-          </div>
-        )}
+                Add First Product
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onAddToCart={handleAddToCart}
+                  onChatClick={handleChatClick}
+                />
+              ))}
+            </div>
+          )}
 
-        {/* Chat Modal */}
-        {selectedProduct && (
-          <ChatModal
-            productId={selectedProduct.id}
-            sellerId={selectedProduct.user.id}
-            sellerName={selectedProduct.user.username}
-            productTitle={selectedProduct.title}
-            originalPrice={selectedProduct.price}
-            onClose={() => setSelectedProduct(null)}
-            onOrderAgreed={handleOrderAgreed}
-          />
-        )}
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center space-x-1 flex-wrap mt-6">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`brutal-btn px-3 py-1 rounded-brutal text-xs ${
+                    currentPage === i + 1
+                      ? 'brutal-btn-primary'
+                      : 'brutal-btn-secondary'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Chat Modal */}
+          {/* Removed - chat now happens in Messages page */}
+        </div>
       </div>
     </Layout>
   );
