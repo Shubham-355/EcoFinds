@@ -14,10 +14,10 @@ const ChatbotButton = () => {
     <>
       <button
         onClick={() => setIsChatOpen(true)}
-        className="fixed bottom-6 right-6 bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-40"
+        className=" brutal-btn brutal-btn-primary rounded-brutal fixed bottom-6 right-6 bg-primary hover:bg-secondary text-black p-3 border-3   shadow-brutal transition-all duration-200 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg z-40 font-black"
         aria-label="Open chatbot"
       >
-        <Bot size={24} />
+        <Bot size={20} />
       </button>
 
       <Chatbot

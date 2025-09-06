@@ -14,57 +14,57 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary">
-      <header className="bg-white border-b-4 border-black shadow-brutal">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="text-2xl font-black text-black bg-primary p-2 border-3 border-black shadow-brutal-sm">
+    <div className="min-h-screen bg-white">
+      <header className="bg-white border-b-2   sticky top-0 z-50 rounded-b-brutal">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between items-center h-12">
+            <Link to="/" className="flex items-center">
+              <div className=" text-lg font-black brutal-btn brutal-btn-primary text-[#C8FF00] bg-primary px-2 py-1 rounded-brutal">
                 EcoFinds
               </div>
             </Link>
             
-            <nav className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center space-x-1 text-black hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary font-bold">
-                <Home size={20} />
-                <span>Home</span>
+            <nav className="flex items-center space-x-2">
+              <Link to="/" className="brutal-btn brutal-btn-secondary flex items-center space-x-1 text-xs px-2 py-1 rounded-brutal">
+                <Home size={12} />
+                <span>HOME</span>
               </Link>
-              <Link to="/my-listings" className="flex items-center space-x-1 text-black hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary font-bold">
-                <Package size={20} />
-                <span>Listings</span>
+              <Link to="/my-listings" className="brutal-btn brutal-btn-secondary flex items-center space-x-1 text-xs px-2 py-1 rounded-brutal">
+                <Package size={12} />
+                <span>LISTINGS</span>
               </Link>
-              <Link to="/cart" className="flex items-center space-x-1 text-black hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary font-bold">
-                <ShoppingCart size={20} />
-                <span>Cart</span>
+              <Link to="/cart" className="brutal-btn brutal-btn-secondary flex items-center space-x-1 text-xs px-2 py-1 rounded-brutal">
+                <ShoppingCart size={12} />
+                <span>CART</span>
               </Link>
-              <Link to="/orders" className="flex items-center space-x-1 text-black hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary font-bold">
-                <Package size={20} />
-                <span>Orders</span>
+              <Link to="/orders" className="brutal-btn brutal-btn-secondary flex items-center space-x-1 text-xs px-2 py-1 rounded-brutal">
+                <Package size={12} />
+                <span>ORDERS</span>
               </Link>
-              <Link to="/dashboard" className="flex items-center space-x-1 text-black hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary font-bold">
-                <User size={20} />
-                <span>Profile</span>
+              <Link to="/dashboard" className="brutal-btn brutal-btn-secondary flex items-center space-x-1 text-xs px-2 py-1 rounded-brutal">
+                <User size={12} />
+                <span>PROFILE</span>
               </Link>
               {user && (
-                <Link to="/messages" className="text-black hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary font-bold flex items-center space-x-1">
-                  <MessageCircle size={20} />
-                  <span>Messages</span>
+                <Link to="/messages" className="brutal-btn brutal-btn-secondary flex items-center space-x-1 text-xs px-2 py-1 rounded-brutal">
+                  <MessageCircle size={12} />
+                  <span>CHAT</span>
                 </Link>
               )}
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-1 text-black hover:bg-red-300 p-2 border-2 border-black shadow-brutal-sm bg-secondary font-bold"
+                className="brutal-btn brutal-btn-secondary flex items-center space-x-1 text-xs px-2 py-1 hover:bg-red-100 rounded-brutal"
               >
-                <LogOut size={20} />
-                <span>Logout</span>
+                <LogOut size={12} />
+                <span>OUT</span>
               </button>
             </nav>
           </div>
         </div>
       </header>
       
-      <main className="pt-8">
-        <div className="container mx-auto px-4 py-8">
+      <main className="pt-4">
+        <div className="container mx-auto px-4 py-4">
           {children}
         </div>
       </main>

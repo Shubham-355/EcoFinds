@@ -99,40 +99,39 @@ const Home = () => {
     <Layout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-black text-black bg-primary p-4 border-4 border-black shadow-brutal">
-            Browse Products
+        <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
+          <h1 className="brutal-header text-2xl bg-primary px-6 py-3     shadow-brutal-sm rounded-brutal">
+            BROWSE PRODUCTS
           </h1>
           <Link
             to="/add-product"
-            className="bg-primary text-black px-6 py-3 border-3 border-black shadow-brutal hover:bg-secondary flex items-center space-x-2 font-black"
+            className="brutal-btn brutal-btn-primary flex items-center space-x-2 rounded-brutal"
           >
-            <Plus size={20} />
-            <span>Add Product</span>
+            <Plus size={16} />
+            <span>ADD PRODUCT</span>
           </Link>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white p-6 border-4 border-black shadow-brutal">
-          <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
+          <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black" size={20} />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                 <input
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Search for products..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
+                  className="brutal-input w-full pl-10 rounded-brutal"
                 />
               </div>
             </div>
             
-            <div className="flex gap-4">
+            <div className="flex gap-2 flex-wrap">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 border-3 border-black shadow-brutal-sm bg-bg-secondary focus:outline-none font-bold"
+                className="brutal-select min-w-[140px] rounded-brutal"
               >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
@@ -144,26 +143,35 @@ const Home = () => {
               
               <button
                 type="submit"
-                className="bg-secondary text-black px-6 py-3 border-3 border-black shadow-brutal hover:bg-primary flex items-center space-x-2 font-black"
+                className="brutal-btn brutal-btn-secondary flex items-center space-x-2 rounded-brutal"
               >
-                <Filter size={20} />
-                <span>Filter</span>
+                <Filter size={14} />
+                <span>FILTER</span>
               </button>
             </div>
           </form>
-        </div>
 
         {/* Products Grid */}
         {loading ? (
-          <div className="text-center py-12 bg-bg-secondary border-4 border-black shadow-brutal">
-            <div className="text-2xl font-black text-black">Loading products...</div>
+          <div className="text-center py-12 brutal-card rounded-brutal">
+            <div className="text-md font-bold text-black bg-primary px-4 py-2     inline-block rounded-brutal shadow-brutal-sm">
+              Loading products...
+            </div>
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-12 bg-bg-secondary border-4 border-black shadow-brutal">
-            <div className="text-2xl font-black text-black">No products found</div>
+          <div className="text-center py-12 brutal-card rounded-brutal">
+            <div className="text-md font-bold text-black bg-gray-100 px-4 py-2     inline-block mb-4 rounded-brutal shadow-brutal-sm">
+              No products found
+            </div>
+            <Link 
+              to="/add-product"
+              className="brutal-btn brutal-btn-primary rounded-brutal"
+            >
+              Add First Product
+            </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {products.map((product) => (
               <ProductCard
                 key={product.id}
@@ -177,15 +185,15 @@ const Home = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center space-x-1 flex-wrap mt-6">
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i + 1}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 border-3 border-black shadow-brutal-sm font-black ${
+                className={`brutal-btn px-3 py-1 rounded-brutal text-xs ${
                   currentPage === i + 1
-                    ? 'bg-primary text-black'
-                    : 'bg-white text-black hover:bg-bg-secondary'
+                    ? 'brutal-btn-primary'
+                    : 'brutal-btn-secondary'
                 }`}
               >
                 {i + 1}

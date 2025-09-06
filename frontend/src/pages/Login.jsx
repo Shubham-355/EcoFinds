@@ -37,27 +37,28 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg-primary p-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-white p-4">
+      <div className="max-w-md w-full space-y-6">
         <div className="text-center">
-          <div className="bg-primary p-4 border-4 border-black shadow-brutal mb-4 inline-block">
-            <h2 className="text-4xl font-black text-black">EcoFinds</h2>
+          <div className="brutal-card p-8 mb-6 rounded-brutal">
+            <h2 className="brutal-header text-4xl mb-2 rounded-brutal inline-block">EcoFinds</h2>
+            <p className="text-lg font-semibold text-gray-700">Second-Hand Marketplace</p>
           </div>
-          <h3 className="text-2xl font-bold text-black bg-bg-secondary p-3 border-3 border-black shadow-brutal-sm">
-            Sign in to your account
+          <h3 className="text-2xl font-bold text-black bg-primary px-6 py-3 rounded-brutal shadow-brutal inline-block border-3  ">
+            WELCOME BACK
           </h3>
         </div>
         
-        <form className="mt-8 space-y-6 bg-white p-6 border-4 border-black shadow-brutal" onSubmit={handleSubmit}>
+        <form className="brutal-card p-8 space-y-6 rounded-brutal" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-300 border-3 border-black text-black px-4 py-3 shadow-brutal-sm font-bold">
+            <div className="bg-red-100 border-3   text-black px-4 py-3 shadow-brutal font-bold rounded-brutal">
               {error}
             </div>
           )}
           
           <div>
-            <label htmlFor="email" className="block text-sm font-bold text-black">
-              Email address
+            <label htmlFor="email" className="block text-sm font-bold text-black mb-2 bg-warning px-3 py-1     rounded-brutal-sm inline-block">
+              EMAIL ADDRESS
             </label>
             <input
               id="email"
@@ -66,13 +67,14 @@ const Login = () => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:ring-0 focus:bg-white font-bold"
+              className="brutal-input w-full rounded-brutal"
+              placeholder="Enter your email"
             />
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-sm font-bold text-black">
-              Password
+            <label htmlFor="password" className="block text-sm font-bold text-black mb-2 bg-warning px-3 py-1     rounded-brutal-sm inline-block">
+              PASSWORD
             </label>
             <input
               id="password"
@@ -81,21 +83,22 @@ const Login = () => {
               required
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:ring-0 focus:bg-white font-bold"
+              className="brutal-input w-full rounded-brutal"
+              placeholder="Enter your password"
             />
           </div>
           
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center py-3 px-4 border-3 border-black shadow-brutal text-lg font-black text-black bg-primary hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full brutal-btn brutal-btn-primary text-base py-4 disabled:opacity-50 disabled:cursor-not-allowed rounded-brutal"
           >
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'SIGNING IN...' : 'SIGN IN'}
           </button>
           
-          <div className="text-center">
-            <Link to="/register" className="text-black font-bold hover:bg-primary p-2 border-2 border-black shadow-brutal-sm bg-bg-secondary">
-              Don't have an account? Sign up
+          <div className="text-center pt-4">
+            <Link to="/register" className="brutal-btn brutal-btn-secondary text-sm rounded-brutal">
+              Don't have an account? SIGN UP
             </Link>
           </div>
         </form>

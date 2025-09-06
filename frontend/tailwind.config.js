@@ -7,27 +7,51 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#DCFD00',
-        secondary: '#FFD392',
-        'bg-primary': '#FFFFF4',
-        'bg-secondary': '#D9DBFF',
-        green: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
-        }
+        primary: '#C8FF00',      // Bright neon green like screenshot
+        secondary: '#FFFFFF',    // Pure white
+        accent: '#000000',       // Pure black
+        warning: '#FFA500',      // Orange
+        'bg-primary': '#FFFFFF', // Pure white background
+        'bg-secondary': '#F5F5F5', // Light gray
+        'bg-accent': '#E6F3FF',  // Light blue
+        'brutal-black': '#000000',
       },
       boxShadow: {
-        'brutal': '4px 4px 0px 0px #000000',
+        'brutal': '3px 3px 0px 0px #000000',
         'brutal-sm': '2px 2px 0px 0px #000000',
-        'brutal-lg': '6px 6px 0px 0px #000000',
+        'brutal-xs': '1px 1px 0px 0px #000000',
+        'brutal-lg': '4px 4px 0px 0px #000000',
+        'brutal-xl': '6px 6px 0px 0px #000000',
+        'brutal-2xl': '8px 8px 0px 0px #000000',
+        'brutal-inset': '3px 3px 0px 0px #000000, inset 0 0 0 2px #000000',
+        'brutal-inset-sm': '2px 2px 0px 0px #000000, inset 0 0 0 1px #000000',
+        'brutal-inset-lg': '4px 4px 0px 0px #000000, inset 0 0 0 2px #000000',
+      },
+      borderWidth: {
+        '2': '2px',
+        '3': '3px',
+        '4': '4px',
+        '5': '5px',
+        '6': '6px',
+      },
+      borderRadius: {
+        'brutal': '8px',
+        'brutal-sm': '6px',
+        'brutal-xs': '4px',
+        'brutal-lg': '12px',
+        'brutal-xl': '16px',
+        'brutal-2xl': '20px',
+        'brutal-nav': '8px',
+        'brutal-top': '8px 8px 0 0',
+        'brutal-bottom': '0 0 8px 8px',
+        'brutal-left': '8px 0 0 8px',
+        'brutal-right': '0 8px 8px 0',
+      },
+      fontFamily: {
+        'sans': ['Inter', 'Arial', 'sans-serif'],
+      },
+      animation: {
+        'bounce-slow': 'bounce 2s infinite',
       }
     },
   },

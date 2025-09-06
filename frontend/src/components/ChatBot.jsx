@@ -105,16 +105,16 @@ const Chatbot = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-opacity-50 z-50 flex items-end justify-end p-4">
-      <div className="bg-white border-4 border-black shadow-brutal w-96 h-96 flex flex-col">
+      <div className="bg-white brutal-border shadow-brutal w-96 h-96 flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b-4 border-black bg-primary text-black">
+        <div className="flex items-center justify-between p-4 brutal-border brutal-btn-primary bg-primary text-black">
           <div className="flex items-center space-x-2">
             <Bot size={24} />
             <h3 className="font-black">EcoFinds Assistant</h3>
           </div>
           <button
             onClick={onClose}
-            className="text-black hover:bg-red-300 p-1 border-2 border-black bg-red-200 transition-colors"
+            className="text-black hover:bg-red-300 p-1 brutal-border bg-red-200 transition-colors"
           >
             <X size={20} />
           </button>
@@ -124,7 +124,7 @@ const Chatbot = ({ isOpen, onClose }) => {
         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-bg-primary">
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-xs p-3 border-2 border-black shadow-brutal-sm ${
+              <div className={`max-w-xs p-3 brutal-border shadow-brutal-sm ${
                 message.type === 'user' 
                   ? 'bg-primary text-black' 
                   : 'bg-bg-secondary text-black'
@@ -139,21 +139,21 @@ const Chatbot = ({ isOpen, onClose }) => {
                     {message.products && message.products.length > 0 && (
                       <div className="mt-3 space-y-2">
                         {message.products.slice(0, 3).map((product) => (
-                          <div key={product.id} className="bg-white border-2 border-black p-3 text-black">
+                          <div key={product.id} className="bg-white brutal-border p-3 text-black">
                             <div className="flex items-start space-x-3">
                               <img
                                 src={product.image || '/api/placeholder/60/60'}
                                 alt={product.title}
-                                className="w-12 h-12 object-cover border border-black"
+                                className="w-12 h-12 object-cover"
                               />
                               <div className="flex-1 min-w-0">
-                                <h4 className="text-sm font-black truncate bg-bg-primary p-1 border border-black">{product.title}</h4>
+                                <h4 className="text-sm font-black truncate bg-bg-primary p-1 ">{product.title}</h4>
                                 <p className="text-xs text-black truncate font-bold">{product.category.name}</p>
-                                <p className="text-sm font-black text-black bg-primary p-1 border border-black">${product.price}</p>
+                                <p className="text-sm font-black text-black bg-primary p-1 ">${product.price}</p>
                                 <div className="flex space-x-1 mt-2">
                                   <button
                                     onClick={() => handleProductView(product)}
-                                    className="text-xs bg-secondary text-black px-2 py-1 border border-black hover:bg-primary flex items-center space-x-1 font-bold"
+                                    className="text-xs bg-secondary text-black px-2 py-1 brutal-border shadow-brutal-sm hover:bg-primary flex items-center space-x-1 font-bold"
                                   >
                                     <Eye size={12} />
                                     <span>View</span>
@@ -161,7 +161,7 @@ const Chatbot = ({ isOpen, onClose }) => {
                                   {user && (
                                     <button
                                       onClick={() => handleAddToCart(product.id)}
-                                      className="text-xs bg-bg-secondary text-black px-2 py-1 border border-black hover:bg-primary flex items-center space-x-1 font-bold"
+                                      className="text-xs bg-secondary text-black px-2 py-1 brutal-border shadow-brutal-sm hover:bg-primary flex items-center space-x-1 font-bold"
                                     >
                                       <ShoppingCart size={12} />
                                       <span>Add</span>
@@ -182,13 +182,13 @@ const Chatbot = ({ isOpen, onClose }) => {
           
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-bg-secondary text-black max-w-xs p-3 border-2 border-black shadow-brutal-sm">
+              <div className="bg-bg-secondary text-black max-w-xs p-3 brutal-border shadow-brutal">
                 <div className="flex items-center space-x-2">
                   <Bot size={16} />
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-black rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-black rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-black rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-black border border-black animate-bounce"></div>
+                    <div className="w-2 h-2 bg-black border border-black animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-black border border-black animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
               </div>
@@ -200,14 +200,14 @@ const Chatbot = ({ isOpen, onClose }) => {
 
         {/* Quick suggestions */}
         {suggestions.length > 0 && messages.length === 1 && (
-          <div className="px-4 py-2 border-t-2 border-black bg-bg-secondary">
+          <div className="px-4 py-2  bg-bg-secondary">
             <p className="text-xs text-black mb-2 font-bold">Quick questions:</p>
             <div className="flex flex-wrap gap-1">
               {suggestions.slice(0, 3).map((suggestion, index) => (
                 <button
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="text-xs bg-white text-black px-2 py-1 border border-black hover:bg-bg-primary font-bold"
+                  className="text-xs bg-white text-black px-2 py-1 brutal-border hover:bg-bg-primary font-bold"
                 >
                   {suggestion}
                 </button>
@@ -217,7 +217,7 @@ const Chatbot = ({ isOpen, onClose }) => {
         )}
 
         {/* Input */}
-        <div className="p-4 border-t-4 border-black bg-white">
+        <div className="p-4 brutal-border bg-white">
           <div className="flex space-x-2">
             <input
               type="text"
@@ -225,13 +225,13 @@ const Chatbot = ({ isOpen, onClose }) => {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
               placeholder="Ask me about products..."
-              className="flex-1 px-3 py-2 border-3 border-black focus:outline-none bg-bg-primary text-sm font-bold"
+              className="flex-1 px-3 py-2 brutal-border focus:outline-none bg-bg-primary text-sm font-bold"
               disabled={isLoading}
             />
             <button
               onClick={() => sendMessage()}
               disabled={isLoading || !inputMessage.trim()}
-              className="bg-primary text-black px-3 py-2 border-3 border-black shadow-brutal-sm hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed font-black"
+              className="bg-primary text-black px-3 py-2 brutal-border shadow-brutal-sm hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed font-black"
             >
               <Send size={16} />
             </button>

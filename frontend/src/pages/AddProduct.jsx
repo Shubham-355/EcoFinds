@@ -107,29 +107,26 @@ const AddProduct = () => {
 
   return (
     <Layout>
-      <div className="max-w-2xl mx-auto">
-        <div className="mb-6">
+      <div className="max-w-2xl mx-auto brutal-border">
+        <div className="mb-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-black bg-bg-secondary p-2 border-3 border-black shadow-brutal-sm hover:bg-primary font-bold"
+            className="flex items-center space-x-2 text-black bg-bg-secondary px-2 py-2     shadow-brutal-sm hover:bg-primary font-bold rounded-brutal"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={16} />
             <span>Back</span>
           </button>
-          <h1 className="text-4xl font-black text-black mt-4 bg-primary p-4 border-4 border-black shadow-brutal">
-            Add New Product
-          </h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white border-4 border-black shadow-brutal p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white     shadow-brutal-sm p-3 space-y-3 rounded-brutal">
           {error && (
-            <div className="bg-red-300 border-3 border-black text-black px-4 py-3 shadow-brutal-sm font-bold">
+            <div className="bg-red-300     text-black px-3 py-2 shadow-brutal-xs font-bold rounded-brutal">
               {error}
             </div>
           )}
 
           <div>
-            <label htmlFor="title" className="block text-sm font-black text-black mb-2">
+            <label htmlFor="title" className="block  text-xs font-black text-black mb-1 bg-warning px-2 py-1   rounded-brutal inline-block">
               Product Title *
             </label>
             <input
@@ -139,12 +136,12 @@ const AddProduct = () => {
               required
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
+              className="w-full px-2 py-2 brutal-border   shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal"
             />
           </div>
 
           <div>
-            <label htmlFor="categoryId" className="block text-sm font-black text-black mb-2">
+            <label htmlFor="categoryId" className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1   rounded-brutal inline-block">
               Category *
             </label>
             <select
@@ -153,7 +150,7 @@ const AddProduct = () => {
               required
               value={formData.categoryId}
               onChange={handleChange}
-              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-secondary focus:outline-none font-bold"
+              className="w-full px-2 py-2  brutal-border   shadow-brutal-xs bg-bg-secondary focus:outline-none font-bold rounded-brutal"
             >
               <option value="">Select a category</option>
               {categories.map((category) => (
@@ -165,22 +162,22 @@ const AddProduct = () => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-black text-black mb-2">
+            <label htmlFor="description" className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1    rounded-brutal inline-block">
               Description *
             </label>
             <textarea
               id="description"
               name="description"
               required
-              rows={4}
+              rows={3}
               value={formData.description}
               onChange={handleChange}
-              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
+              className="w-full px-2 py-2   brutal-border  shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal"
             />
           </div>
 
           <div>
-            <label htmlFor="price" className="block text-sm font-black text-black mb-2">
+            <label htmlFor="price" className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1   rounded-brutal inline-block">
               Price ($) *
             </label>
             <input
@@ -192,24 +189,24 @@ const AddProduct = () => {
               step="0.01"
               value={formData.price}
               onChange={handleChange}
-              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
+              className="w-full px-2 py-2  brutal-border   shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-black text-black mb-2">
+            <label className="block text-xs font-black text-black mb-1 bg-warning px-2 py-1    rounded-brutal inline-block">
               Product Image *
             </label>
-            <div className="border-4 border-black bg-bg-secondary p-6">
+            <div className=" brutal-border   bg-bg-secondary p-4 rounded-brutal">
               {preview ? (
                 <div className="text-center">
-                  <img src={preview} alt="Preview" className="mx-auto h-32 w-32 object-cover border-2 border-black" />
-                  <p className="mt-2 text-sm text-black font-bold">Click to change image</p>
+                  <img src={preview} alt="Preview" className="mx-auto h-24 w-24 object-cover border  rounded-brutal" />
+                  <p className="mt-2 text-xs text-black font-bold w-50">Click to change image</p>
                 </div>
               ) : (
                 <div className="text-center">
-                  <Upload className="mx-auto h-12 w-12 text-black" />
-                  <p className="mt-2 text-sm text-black font-bold">Click to upload an image</p>
+                  <Upload className="mx-auto h-8 w-8 text-black " />
+                  <p className="mt-2 text-xs text-black font-bold">Click to upload an image</p>
                 </div>
               )}
               <input
@@ -217,23 +214,23 @@ const AddProduct = () => {
                 name="image"
                 accept="image/*"
                 onChange={handleChange}
-                className="mt-2 block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:border-3 file:border-black file:bg-secondary file:text-black file:font-bold file:shadow-brutal-sm hover:file:bg-primary"
+                className="mt-2 block w-full brutal-border text-xs text-black file:mr-2 file:py-1 file:px-2 file:brutal-border  file:brutal-border  file:bg-secondary file:text-black file:font-bold file:shadow-brutal-xs hover:file:bg-primary file:rounded-brutal rounded-brutal"
               />
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-2">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="px-6 py-2 border-3 border-black shadow-brutal-sm text-black bg-bg-secondary hover:bg-bg-primary font-bold"
+              className="px-3 py-2   brutal-border  shadow-brutal-xs text-black bg-bg-secondary hover:bg-bg-primary hover:shadow-brutal-sm hover:translate-x-[-1px] hover:translate-y-[-1px] font-bold transition-all rounded-brutal"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-primary text-black border-3 border-black shadow-brutal hover:bg-secondary disabled:opacity-50 font-black"
+              className="px-3 py-2 bg-primary text-black   brutal-border  shadow-brutal-xs hover:bg-secondary hover:shadow-brutal-sm hover:translate-x-[-1px] hover:translate-y-[-1px] disabled:opacity-50 font-black transition-all rounded-brutal"
             >
               {loading ? 'Creating...' : 'Submit Listing'}
             </button>

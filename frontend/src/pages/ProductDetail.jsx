@@ -113,93 +113,93 @@ const ProductDetail = () => {
   return (
     <Layout>
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
+        <div className="mb-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-black bg-bg-secondary p-2 border-3 border-black shadow-brutal-sm hover:bg-primary font-bold"
+            className="flex items-center space-x-2 text-black bg-bg-secondary p-2 brutal-border shadow-brutal-sm hover:bg-primary font-bold rounded-brutal-sm"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={16} />
             <span>Back</span>
           </button>
         </div>
 
-        <div className="bg-white border-4 border-black shadow-brutal overflow-hidden">
+        <div className="bg-white brutal-border shadow-brutal overflow-hidden rounded-brutal">
           <div className="md:flex">
-            <div className="md:w-1/2 border-r-4 border-black">
+            <div className="md:w-1/2 border-r-2 border-black">
               <img
                 src={product.image || '/api/placeholder/600/400'}
                 alt={product.title}
-                className="w-full h-96 md:h-full object-cover"
+                className="w-full h-80 md:h-full object-cover"
               />
             </div>
             
-            <div className="md:w-1/2 p-6 md:p-8">
-              <h1 className="text-3xl font-black text-black mb-4 bg-primary p-3 border-3 border-black shadow-brutal-sm">
+            <div className="md:w-1/2 p-4 md:p-6">
+              <h1 className="text-2xl font-black text-black mb-3 bg-primary p-2 brutal-border shadow-brutal-sm rounded-brutal-sm">
                 {product.title}
               </h1>
               
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl font-black text-black bg-primary p-3 border-3 border-black shadow-brutal">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-2xl font-black text-black bg-primary p-2 shadow-brutal-sm rounded-brutal-sm">
                   ${product.price}
                 </span>
                 {product.category && (
-                  <span className="bg-bg-secondary text-black px-3 py-1 border-2 border-black text-sm font-bold">
+                  <span className="bg-bg-secondary text-black px-2 py-1 brutal-border text-sm font-bold rounded-brutal-sm">
                     {product.category.name}
                   </span>
                 )}
               </div>
 
-              <div className="mb-6">
-                <h3 className="text-lg font-black text-black mb-2 bg-bg-secondary p-2 border-2 border-black">Description</h3>
-                <p className="text-black leading-relaxed bg-bg-primary p-3 border-2 border-black font-bold">{product.description}</p>
+              <div className="mb-4">
+                <h3 className="text-md font-black text-black mb-2 bg-bg-secondary p-2 brutal-border rounded-brutal-sm">Description</h3>
+                <p className="text-black leading-relaxed bg-bg-primary p-2 brutal-border font-bold rounded-brutal-sm text-sm">{product.description}</p>
               </div>
 
               {product.user && (
-                <div className="mb-6 p-4 bg-bg-secondary border-3 border-black shadow-brutal-sm">
-                  <h3 className="text-lg font-black text-black mb-2">Seller Information</h3>
+                <div className="mb-4 p-3 bg-bg-secondary brutal-border shadow-brutal-sm rounded-brutal-sm">
+                  <h3 className="text-md font-black text-black mb-2">Seller Information</h3>
                   <div className="flex items-center space-x-3">
                     {product.user.profilePhoto ? (
                       <img
                         src={product.user.profilePhoto}
                         alt={product.user.username}
-                        className="w-10 h-10 border-2 border-black object-cover"
+                        className="w-8 h-8 brutal-border object-cover rounded-brutal-xs"
                       />
                     ) : (
-                      <div className="w-10 h-10 bg-white border-2 border-black flex items-center justify-center">
-                        <User size={20} className="text-black" />
+                      <div className="w-8 h-8 bg-white brutal-border flex items-center justify-center rounded-brutal-xs">
+                        <User size={16} className="text-black" />
                       </div>
                     )}
                     <div>
-                      <p className="font-black text-black">{product.user.username}</p>
-                      <p className="text-sm text-black font-bold">Member since {new Date(product.user.createdAt).getFullYear()}</p>
+                      <p className="font-black text-black bg-white px-1 py-0.5 rounded-brutal-xs text-sm">{product.user.username}</p>
+                      {/* <p className="text-xs text-black font-bold">Member since {new Date(product.user.createdAt).getFullYear()}</p> */}
                     </div>
                   </div>
                 </div>
               )}
 
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {isOwner ? (
                   product.isAvailable ? (
-                    <div className="flex space-x-3">
+                    <div className="flex space-x-2">
                       <button
                         onClick={() => setShowEdit(true)}
-                        className="flex-1 bg-secondary text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-primary flex items-center justify-center space-x-2 text-lg font-black"
+                        className="flex-1 bg-secondary text-black py-2 px-4 brutal-border shadow-brutal-sm hover:bg-primary hover:shadow-brutal hover:translate-x-[-1px] hover:translate-y-[-1px] flex items-center justify-center space-x-2 text-sm font-black transition-all rounded-brutal-sm"
                       >
-                        <Edit size={20} />
+                        <Edit size={16} />
                         <span>Edit Product</span>
                       </button>
                       <button
                         onClick={handleDelete}
-                        className="flex-1 bg-red-300 text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-red-400 flex items-center justify-center space-x-2 text-lg font-black"
+                        className="flex-1 bg-red-300 text-black py-2 px-4 brutal-border shadow-brutal-sm hover:bg-red-400 hover:shadow-brutal hover:translate-x-[-1px] hover:translate-y-[-1px] flex items-center justify-center space-x-2 text-sm font-black transition-all rounded-brutal-sm"
                       >
-                        <Trash2 size={20} />
+                        <Trash2 size={16} />
                         <span>Delete</span>
                       </button>
                     </div>
                   ) : (
-                    <div className="text-center text-black py-3 bg-bg-secondary border-3 border-black shadow-brutal">
-                      <p className="mb-2 font-bold">This product has been sold</p>
-                      <span className="bg-red-300 text-black px-3 py-1 border-2 border-black text-sm font-black">
+                    <div className="text-center text-black py-2 bg-bg-secondary shadow-brutal-sm rounded-brutal-sm">
+                      <p className="mb-1 font-bold text-sm">This product has been sold</p>
+                      <span className="bg-red-300 text-black px-2 py-1 brutal-border text-xs font-black rounded-brutal-xs">
                         SOLD
                       </span>
                     </div>
@@ -208,30 +208,30 @@ const ProductDetail = () => {
                   <>
                     <button
                       onClick={handleAddToCart}
-                      className="w-full bg-secondary text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-primary flex items-center justify-center space-x-2 text-lg font-black"
+                      className="w-full bg-secondary text-black py-2 px-4 brutal-border shadow-brutal-sm hover:bg-primary hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 flex items-center justify-center space-x-2 text-sm font-black transition-all rounded-brutal-sm"
                     >
-                      <ShoppingCart size={20} />
+                      <ShoppingCart size={16} />
                       <span>Add to Cart</span>
                     </button>
                     <button
                       onClick={() => setShowChat(true)}
-                      className="w-full bg-primary text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-secondary flex items-center justify-center space-x-2 text-lg font-black"
+                      className="w-full bg-primary text-black py-2 px-4 brutal-border shadow-brutal-sm hover:bg-secondary hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 flex items-center justify-center space-x-2 text-sm font-black transition-all rounded-brutal-sm"
                     >
-                      <MessageCircle size={20} />
+                      <MessageCircle size={16} />
                       <span>Chat with Seller</span>
                     </button>
                   </>
                 ) : (
-                  <div className="w-full bg-gray-300 text-black py-3 px-6 border-3 border-black text-center text-lg font-black">
+                  <div className="w-full bg-red-300 text-black py-2 px-4 brutal-border text-center text-sm font-black shadow-brutal-sm rounded-brutal-sm">
                     Not Available
                   </div>
                 )}
               </div>
 
-              <div className="mt-6 text-sm text-black bg-bg-primary p-2 border-2 border-black font-bold">
-                <p>Posted on {new Date(product.createdAt).toLocaleDateString()}</p>
+              <div className="mt-4 text-xs text-black bg-bg-primary p-2 font-bold rounded-brutal-sm">
+                <p className="bg-bg-secondary p-1 mb-1 rounded-brutal-xs">Posted on {new Date(product.createdAt).toLocaleDateString()}</p>
                 {product.updatedAt !== product.createdAt && (
-                  <p>Updated on {new Date(product.updatedAt).toLocaleDateString()}</p>
+                  <p className="bg-bg-secondary p-1 brutal-border rounded-brutal-xs">Updated on {new Date(product.updatedAt).toLocaleDateString()}</p>
                 )}
               </div>
             </div>
