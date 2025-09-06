@@ -7,12 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#C8FF00',      // Bright neon green like screenshot
-        secondary: '#FFFFFF',    // Pure white
+        primary: '#DCFD00',      // Primary button color
+        secondary: '#FFFFFF',    // Pure white for components
         accent: '#000000',       // Pure black
         warning: '#FFA500',      // Orange
-        'bg-primary': '#FFFFFF', // Pure white background
-        'bg-secondary': '#F5F5F5', // Light gray
+        'bg-primary': '#FFFFF4', // Primary background color
+        'bg-secondary': '#D9DBFF', // Secondary background
         'bg-accent': '#E6F3FF',  // Light blue
         'brutal-black': '#000000',
       },

@@ -286,7 +286,7 @@ const Messages = () => {
                     <div
                       key={chat.id}
                       onClick={() => setSelectedChat(chat)}
-                      className={`p-4 cursor-pointer border-b border-gray-200 hover:bg-bg-primary transition-colors ${
+                      className={`relative p-4 cursor-pointer border-b border-gray-200 hover:bg-bg-secondary transition-colors ${
                         selectedChat?.id === chat.id ? 'bg-bg-secondary' : 'bg-white'
                       }`}
                     >
@@ -317,6 +317,11 @@ const Messages = () => {
                           </p>
                         </div>
                       </div>
+                      
+                      {/* Unread message indicator */}
+                      {chat.lastMessage && chat.lastMessage.senderId !== user.id && !chat.lastMessage.read && (
+                        <div className="notification-dot"></div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -328,27 +333,8 @@ const Messages = () => {
           <div className="flex-1 flex flex-col">
             {selectedChat ? (
               <>
-                {/* Chat Header */}
-                <div className="p-4 bg-bg-secondary border-b-2 border-black">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <img
-                        src={selectedChat.product.image || '/api/placeholder/40/40'}
-                        alt={selectedChat.product.title}
-                        className="w-10 h-10 object-cover brutal-border rounded-brutal-xs"
-                      />
-                      <div>
-                        <h3 className="font-black text-black">{selectedChat.product.title}</h3>
-                        <p className="text-sm text-black font-bold">
-                          with {selectedChat.otherUser.username} • ${selectedChat.product.price}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-bg-primary">
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white">
                   {messages.length === 0 ? (
                     <div className="text-center py-8">
                       <MessageCircle className="mx-auto mb-4" size={32} />
@@ -397,7 +383,7 @@ const Messages = () => {
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       placeholder="Type your message..."
-                      className="flex-1 px-3 py-2 brutal-border focus:outline-none bg-bg-primary font-bold rounded-brutal-sm"
+                      className="flex-1 px-3 py-2 brutal-border focus:outline-none bg-white font-bold rounded-brutal-sm"
                       disabled={sending}
                     />
                     <button
@@ -411,7 +397,7 @@ const Messages = () => {
                 </div>
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center bg-bg-primary">
+              <div className="flex-1 flex items-center justify-center bg-white">
                 <div className="text-center">
                   <MessageCircle className="mx-auto mb-4" size={48} />
                   <h3 className="text-xl font-black text-black mb-2">Select a conversation</h3>
@@ -447,7 +433,7 @@ const Messages = () => {
                   value={offerAmount}
                   onChange={(e) => setOfferAmount(e.target.value)}
                   placeholder="Enter your offer amount"
-                  className="w-full brutal-border px-3 py-2 focus:outline-none bg-bg-primary font-bold rounded-brutal-sm"
+                  className="w-full brutal-border px-3 py-2 focus:outline-none bg-white font-bold rounded-brutal-sm"
                   min="0"
                   step="0.01"
                 />

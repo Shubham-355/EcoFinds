@@ -25,13 +25,24 @@ const Orders = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      pending: 'bg-secondary text-black    ',
-      confirmed: 'bg-bg-secondary text-black    ',
-      shipped: 'bg-primary text-black    ',
-      delivered: 'bg-primary text-black    ',
-      cancelled: 'bg-red-300 text-black    ',
+      pending: 'bg-secondary text-black',
+      confirmed: 'bg-bg-secondary text-black',
+      shipped: 'bg-primary text-black',
+      delivered: 'bg-primary text-black',
+      cancelled: 'bg-red-300 text-black',
     };
-    return colors[status] || 'bg-white text-black    ';
+    return colors[status] || 'bg-white text-black';
+  };
+
+  const getStatusIndicator = (status) => {
+    const indicators = {
+      pending: '⏳',
+      confirmed: '✅', 
+      shipped: '🚚',
+      delivered: '📦',
+      cancelled: '❌',
+    };
+    return indicators[status] || '📋';
   };
 
   if (loading) {
@@ -56,7 +67,7 @@ const Orders = () => {
             <div className="bg-primary p-3 brutal-border inline-block mb-4 rounded-brutal">
               <Package className="mx-auto h-16 w-16 text-black" />
             </div>
-            <p className="text-black text-lg mb-4 font-bold bg-white p-3 brutal-border rounded-brutal">No orders found</p>
+            <p className="text-black text-lg mb-4 font-bold bg-bg-primary p-3 brutal-border rounded-brutal">No orders found</p>
             <Link
               to="/"
               className="bg-primary text-black px-6 py-3 brutal-border shadow-brutal hover:bg-secondary hover:shadow-brutal-lg hover:translate-x-1 hover:translate-y-1 inline-block font-black transition-all rounded-brutal"
@@ -85,7 +96,7 @@ const Orders = () => {
                       </div>
                       {order.orderType === 'sale' && (
                         <p className="text-sm text-black mb-2 font-bold">
-                          Sold to: <span className="font-black bg-bg-primary p-1 rounded-brutal-sm">{order.buyerName}</span>
+                          Sold to: <span className="font-black bg-white p-1 rounded-brutal-sm">{order.buyerName}</span>
                         </p>
                       )}
                       <div className="flex items-center space-x-4 mt-2 text-sm text-black font-bold">
@@ -99,8 +110,11 @@ const Orders = () => {
                         </div>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 brutal-border text-sm font-black rounded-brutal ${getStatusColor(order.status)}`}>
-                      {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                    <span className={`px-3 py-1 brutal-border text-sm font-black rounded-brutal relative ${getStatusColor(order.status)}`}>
+                      {getStatusIndicator(order.status)} {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                      {order.status === 'pending' && (
+                        <div className="notification-dot bg-warning border-black"></div>
+                      )}
                     </span>
                   </div>
                 </div>
@@ -108,7 +122,7 @@ const Orders = () => {
                 <div className="p-6">
                   <div className="space-y-4">
                     {order.items.map((item) => (
-                      <div key={item.id} className="flex items-center space-x-4 p-3 brutal-border bg-bg-primary rounded-brutal">
+                      <div key={item.id} className="flex items-center space-x-4 p-3 brutal-border bg-white rounded-brutal">
                         <Link to={`/product/${item.product.id}`} className="flex-shrink-0">
                           <img
                             src={item.product.image || '/api/placeholder/80/80'}
@@ -130,7 +144,7 @@ const Orders = () => {
                             </span>
                           </div>
                           <div className="flex justify-between items-center mt-2">
-                            <span className="text-black font-black bg-secondary p-1 rounded-brutal-sm">
+                            <span className="text-black font-black bg-white p-1 rounded-brutal-sm">
                               ${item.price} × {item.quantity}
                             </span>
                             <span className="font-black bg-primary p-1 brutal-border rounded-brutal-sm">

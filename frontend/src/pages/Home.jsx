@@ -14,7 +14,6 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -100,9 +99,10 @@ const Home = () => {
       
       await api.post('/orders/checkout-direct', payload);
       alert('Order completed successfully!');
+      setShowChat(false);
       setSelectedProduct(null);
       // Navigate to orders page instead of refreshing products
-      window.location.href = '/orders';
+      navigate('/orders');
     } catch (error) {
       console.error('Error completing order:', error);
       alert('Failed to complete order');
@@ -169,13 +169,13 @@ const Home = () => {
           {/* Products Grid */}
           {loading ? (
             <div className="text-center py-12 brutal-card rounded-brutal">
-              <div className="text-md font-bold text-black bg-primary px-4 py-2     inline-block rounded-brutal shadow-brutal-sm">
+              <div className="text-md font-bold text-black bg-primary px-4 py-2 brutal-border inline-block rounded-brutal shadow-brutal-sm">
                 Loading products...
               </div>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-12 brutal-card rounded-brutal">
-              <div className="text-md font-bold text-black bg-gray-100 px-4 py-2     inline-block mb-4 rounded-brutal shadow-brutal-sm">
+              <div className="text-md font-bold text-black bg-bg-secondary px-4 py-2 brutal-border inline-block mb-4 rounded-brutal shadow-brutal-sm">
                 No products found
               </div>
               <Link 
@@ -216,9 +216,6 @@ const Home = () => {
               ))}
             </div>
           )}
-
-          {/* Chat Modal */}
-          {/* Removed - chat now happens in Messages page */}
         </div>
       </div>
     </Layout>

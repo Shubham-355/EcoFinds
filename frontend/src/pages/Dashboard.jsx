@@ -147,7 +147,7 @@ const Dashboard = () => {
                       name="username"
                       value={formData.username}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 brutal-border shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal-sm"
+                      className="w-full px-3 py-2 brutal-border shadow-brutal-xs bg-white focus:outline-none focus:bg-white font-bold rounded-brutal-sm"
                     />
                   </div>
                   <div>
@@ -159,7 +159,7 @@ const Dashboard = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 brutal-border shadow-brutal-xs bg-bg-primary focus:outline-none focus:bg-white font-bold rounded-brutal-sm"
+                      className="w-full px-3 py-2 brutal-border shadow-brutal-xs bg-white focus:outline-none focus:bg-white font-bold rounded-brutal-sm"
                     />
                   </div>
                 </div>
@@ -193,7 +193,7 @@ const Dashboard = () => {
                 )}
               </div>
               <div className="space-y-1">
-                <h3 className="text-xl font-black text-black bg-primary p-2  shadow-brutal-xs rounded-brutal-sm">{user?.username}</h3>
+                <h3 className="text-xl font-black text-black bg-primary p-2 shadow-brutal-xs rounded-brutal-sm">{user?.username}</h3>
                 <div className="flex items-center space-x-2 text-black font-bold">
                   <Mail size={14} />
                   <span className="bg-bg-secondary p-1  rounded-brutal-xs text-sm">{user?.email}</span>
@@ -210,40 +210,53 @@ const Dashboard = () => {
         {/* Statistics */}
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white brutal-border shadow-brutal-sm p-4 hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal">
+            <div className="relative bg-white brutal-border shadow-brutal-sm p-4 hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-black text-black bg-bg-secondary p-1  rounded-brutal-xs">Total Listings</p>
-                  <p className="text-xl font-black text-black bg-primary p-2  mt-2 shadow-brutal-xs rounded-brutal-sm">{stats.totalListings}</p>
-                </div>
-                <div className="p-2 bg-bg-secondary  rounded-brutal-sm">
-                  <Package className="h-5 w-5 text-black" />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white brutal-border shadow-brutal-sm p-4 hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-black text-black bg-bg-secondary p-1  rounded-brutal-xs">Total Orders</p>
-                  <p className="text-xl font-black text-black bg-secondary p-2  mt-2 shadow-brutal-xs rounded-brutal-sm">{stats.totalOrders}</p>
+                  <p className="text-sm font-black text-black bg-bg-secondary p-1 rounded-brutal-xs">Total Listings</p>
+                  <p className="text-xl font-black text-black bg-primary p-2 mt-2 shadow-brutal-xs rounded-brutal-sm">{stats.totalListings}</p>
                 </div>
                 <div className="p-2 bg-bg-secondary rounded-brutal-sm">
                   <Package className="h-5 w-5 text-black" />
                 </div>
               </div>
+              {stats.totalListings > 0 && (
+                <span className="notification-count bg-secondary text-black">
+                  {stats.totalListings > 99 ? '99+' : stats.totalListings}
+                </span>
+              )}
             </div>
 
-            <div className="bg-white brutal-border shadow-brutal-sm p-4 hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal">
+            <div className="relative bg-white brutal-border shadow-brutal-sm p-4 hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-black text-black bg-bg-secondary p-1  rounded-brutal-xs">Total Revenue</p>
-                  <p className="text-xl font-black text-black bg-primary p-2 mt-2 shadow-brutal-xs rounded-brutal-sm">${stats.totalRevenue?.toFixed(2) || '0.00'}</p>
+                  <p className="text-sm font-black text-black bg-bg-secondary p-1 rounded-brutal-xs">Total Orders</p>
+                  <p className="text-xl font-black text-black bg-white p-2 mt-2 shadow-brutal-xs rounded-brutal-sm">{stats.totalOrders}</p>
                 </div>
-                <div className="p-2 bg-bg-secondary  rounded-brutal-sm">
+                <div className="p-2 bg-bg-secondary rounded-brutal-sm">
                   <Package className="h-5 w-5 text-black" />
                 </div>
               </div>
+              {stats.totalOrders > 0 && (
+                <span className="notification-count bg-primary text-black">
+                  {stats.totalOrders > 99 ? '99+' : stats.totalOrders}
+                </span>
+              )}
+            </div>
+
+            <div className="relative bg-white brutal-border shadow-brutal-sm p-4 hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-black text-black bg-bg-secondary p-1 rounded-brutal-xs">Total Revenue</p>
+                  <p className="text-xl font-black text-black bg-primary p-2 mt-2 shadow-brutal-xs rounded-brutal-sm">${stats.totalRevenue?.toFixed(2) || '0.00'}</p>
+                </div>
+                <div className="p-2 bg-bg-secondary rounded-brutal-sm">
+                  <Package className="h-5 w-5 text-black" />
+                </div>
+              </div>
+              {stats.totalRevenue > 0 && (
+                <span className="notification-dot bg-success border-black"></span>
+              )}
             </div>
           </div>
         )}
