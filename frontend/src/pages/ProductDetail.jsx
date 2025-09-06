@@ -42,7 +42,7 @@ const ProductDetail = () => {
     }
   };
 
-  const handleOrderAgreed = async (agreedPrice = null) => {
+  const handleOrderAgreed = async (agreedPrice = null, buyerId = null) => {
     try {
       const payload = {
         productId: id,
@@ -50,6 +50,10 @@ const ProductDetail = () => {
       
       if (agreedPrice) {
         payload.agreedPrice = agreedPrice;
+      }
+      
+      if (buyerId) {
+        payload.buyerId = buyerId;
       }
       
       await api.post('/orders/checkout-direct', payload);

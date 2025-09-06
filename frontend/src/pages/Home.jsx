@@ -70,7 +70,7 @@ const Home = () => {
     setSelectedProduct(product);
   };
 
-  const handleOrderAgreed = async (agreedPrice = null) => {
+  const handleOrderAgreed = async (agreedPrice = null, buyerId = null) => {
     try {
       const payload = {
         productId: selectedProduct.id,
@@ -80,10 +80,15 @@ const Home = () => {
         payload.agreedPrice = agreedPrice;
       }
       
+      if (buyerId) {
+        payload.buyerId = buyerId;
+      }
+      
       await api.post('/orders/checkout-direct', payload);
       alert('Order completed successfully!');
       setSelectedProduct(null);
-      fetchProducts();
+      // Navigate to orders page instead of refreshing products
+      window.location.href = '/orders';
     } catch (error) {
       console.error('Error completing order:', error);
       alert('Failed to complete order');

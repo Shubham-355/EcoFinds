@@ -27,10 +27,20 @@ const MyListings = () => {
   };
 
   const handleEdit = (product) => {
+    if (!product.isAvailable) {
+      alert('Cannot edit sold products');
+      return;
+    }
     setEditingProduct(product);
   };
 
   const handleDelete = async (productId) => {
+    const product = products.find(p => p.id === productId);
+    if (!product.isAvailable) {
+      alert('Cannot delete sold products');
+      return;
+    }
+    
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await api.delete(`/products/${productId}`);
@@ -75,17 +85,39 @@ const MyListings = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                showActions={true}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
+          <>
+            {/* Stats Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-white p-4 rounded-lg shadow-md">
+                <h3 className="text-sm font-medium text-gray-500">Total Listings</h3>
+                <p className="text-2xl font-bold text-gray-900">{products.length}</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-md">
+                <h3 className="text-sm font-medium text-gray-500">Available</h3>
+                <p className="text-2xl font-bold text-green-600">
+                  {products.filter(p => p.isAvailable).length}
+                </p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-md">
+                <h3 className="text-sm font-medium text-gray-500">Sold</h3>
+                <p className="text-2xl font-bold text-blue-600">
+                  {products.filter(p => !p.isAvailable).length}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  showActions={true}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
 

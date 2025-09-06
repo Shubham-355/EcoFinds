@@ -4,10 +4,11 @@ import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Get user's orders (purchase history)
+// Get user's orders (both purchases and sales)
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const orders = await prisma.order.findMany({
+    // Get orders where user is the buyer
+    const purchaseOrders = await prisma.order.findMany({
       where: {
         userId: req.user.id
       },
@@ -38,13 +39,75 @@ router.get('/', authenticateToken, async (req, res) => {
       }
     });
 
-    // Transform the response to match frontend expectations
-    const transformedOrders = orders.map(order => ({
+    // Get orders where user is the seller
+    const salesOrders = await prisma.order.findMany({
+      where: {
+        orderItems: {
+          some: {
+            product: {
+              userId: req.user.id
+            }
+          }
+        }
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+          }
+        },
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    username: true,
+                  }
+                },
+                category: {
+                  select: {
+                    id: true,
+                    name: true,
+                  }
+                }
+              }
+            }
+          },
+          where: {
+            product: {
+              userId: req.user.id
+            }
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    // Transform the responses
+    const transformedPurchases = purchaseOrders.map(order => ({
       ...order,
-      items: order.orderItems // Map orderItems to items
+      items: order.orderItems,
+      orderType: 'purchase'
     }));
 
-    res.json({ orders: transformedOrders });
+    const transformedSales = salesOrders.map(order => ({
+      ...order,
+      items: order.orderItems,
+      orderType: 'sale',
+      buyerName: order.user.username
+    }));
+
+    // Combine and sort all orders by date
+    const allOrders = [...transformedPurchases, ...transformedSales].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+    res.json({ orders: allOrders });
   } catch (error) {
     console.error('Get orders error:', error);
     res.status(500).json({ error: 'Failed to fetch orders' });
@@ -158,12 +221,13 @@ router.post('/checkout', authenticateToken, async (req, res) => {
 // Create order directly from chat (single product)
 router.post('/checkout-direct', authenticateToken, async (req, res) => {
   try {
-    const { productId, agreedPrice } = req.body;
+    const { productId, agreedPrice, buyerId } = req.body;
 
     console.log('Direct checkout request:', {
       userId: req.user.id,
       productId,
-      agreedPrice
+      agreedPrice,
+      buyerId
     });
 
     // Get product details
@@ -183,7 +247,8 @@ router.post('/checkout-direct', authenticateToken, async (req, res) => {
       productId: product.id,
       productUserId: product.userId,
       currentUserId: req.user.id,
-      isAvailable: product.isAvailable
+      isAvailable: product.isAvailable,
+      buyerId
     });
 
     if (!product.isAvailable) {
@@ -191,25 +256,37 @@ router.post('/checkout-direct', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Product is no longer available' });
     }
 
-    if (product.userId === req.user.id) {
-      console.log('User trying to buy own product:', {
-        productUserId: product.userId,
-        currentUserId: req.user.id
-      });
-      return res.status(400).json({ error: 'Cannot purchase your own product' });
+    // Determine who the buyer is
+    let actualBuyerId;
+    if (buyerId) {
+      // If buyerId is provided, it means seller is completing the order for a buyer
+      if (req.user.id !== product.userId) {
+        return res.status(403).json({ error: 'Only the product owner can complete orders for buyers' });
+      }
+      actualBuyerId = buyerId;
+    } else {
+      // Direct purchase by the current user
+      if (product.userId === req.user.id) {
+        console.log('User trying to buy own product:', {
+          productUserId: product.userId,
+          currentUserId: req.user.id
+        });
+        return res.status(400).json({ error: 'Cannot purchase your own product' });
+      }
+      actualBuyerId = req.user.id;
     }
 
     // Use agreed price if provided, otherwise use original price
     const finalPrice = agreedPrice || product.price;
 
-    console.log('Creating order with final price:', finalPrice);
+    console.log('Creating order with final price:', finalPrice, 'for buyer:', actualBuyerId);
 
     // Create order with transaction
     const order = await prisma.$transaction(async (tx) => {
       // Create order
       const newOrder = await tx.order.create({
         data: {
-          userId: req.user.id,
+          userId: actualBuyerId,
           totalAmount: finalPrice,
           status: 'COMPLETED',
         }
