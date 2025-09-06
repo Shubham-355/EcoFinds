@@ -21,22 +21,22 @@ const ProductCard = ({
   const isOwner = user && product.user && user.id === product.user.id;
 
   return (
-    <div className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow ${
-      isSelected ? 'ring-2 ring-blue-500' : ''
+    <div className={`bg-white border-4 border-black shadow-brutal overflow-hidden hover:shadow-brutal-lg transition-all ${
+      isSelected ? 'ring-4 ring-primary' : ''
     }`}>
       {showSelection && showActions && isOwner && (
-        <div className="p-2 border-b">
+        <div className="p-2 border-b-3 border-black bg-bg-secondary">
           <input
             type="checkbox"
             checked={isSelected}
             onChange={() => onSelect(product.id)}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-5 w-5 border-2 border-black shadow-brutal-sm focus:ring-0"
           />
         </div>
       )}
 
       <Link to={`/product/${product.id}`}>
-        <div className="aspect-w-16 aspect-h-12 bg-gray-200">
+        <div className="aspect-w-16 aspect-h-12 bg-bg-secondary border-b-4 border-black">
           <img
             src={product.image || '/api/placeholder/300/200'}
             alt={product.title}
@@ -47,27 +47,27 @@ const ProductCard = ({
       
       <div className="p-4">
         <Link to={`/product/${product.id}`}>
-          <h3 className="font-semibold text-lg mb-2 hover:text-green-600">
+          <h3 className="font-black text-lg mb-2 hover:bg-primary p-1 border-2 border-black shadow-brutal-sm">
             {product.title}
           </h3>
         </Link>
         
-        <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+        <p className="text-black text-sm mb-2 font-bold bg-bg-primary p-2 border-2 border-black">
           {product.description}
         </p>
         
         <div className="flex items-center justify-between mb-3">
-          <span className="text-2xl font-bold text-green-600">
+          <span className="text-2xl font-black text-black bg-primary p-2 border-3 border-black shadow-brutal-sm">
             ${product.price}
           </span>
           <div className="flex flex-col items-end space-y-1">
             {product.category && (
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+              <span className="bg-bg-secondary text-black px-2 py-1 border-2 border-black text-xs font-bold">
                 {product.category.name}
               </span>
             )}
             {!product.isAvailable && (
-              <span className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-medium">
+              <span className="bg-red-300 text-black px-2 py-1 border-2 border-black text-xs font-black">
                 SOLD
               </span>
             )}
@@ -75,7 +75,7 @@ const ProductCard = ({
         </div>
 
         {product.user && (
-          <p className="text-sm text-gray-500 mb-3">
+          <p className="text-sm text-black mb-3 font-bold bg-bg-secondary p-1 border-2 border-black">
             by {product.user.username}
           </p>
         )}
@@ -87,9 +87,9 @@ const ProductCard = ({
                 <button
                   onClick={() => onEdit(product)}
                   disabled={!product.isAvailable}
-                  className={`flex-1 py-2 px-3 rounded-md flex items-center justify-center space-x-1 text-sm ${
+                  className={`flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm font-black ${
                     product.isAvailable 
-                      ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                      ? 'bg-secondary text-black hover:bg-primary' 
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                   title={!product.isAvailable ? 'Cannot edit sold products' : 'Edit product'}
@@ -99,7 +99,7 @@ const ProductCard = ({
                 </button>
                 <button
                   onClick={() => onDuplicate && onDuplicate(product.id)}
-                  className="flex-1 py-2 px-3 rounded-md flex items-center justify-center space-x-1 text-sm bg-purple-600 text-white hover:bg-purple-700"
+                  className="flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm bg-bg-secondary text-black hover:bg-primary font-black"
                   title="Duplicate product"
                 >
                   <span>📋</span>
@@ -111,7 +111,7 @@ const ProductCard = ({
                 {product.isAvailable ? (
                   <button
                     onClick={() => onMarkAsSold && onMarkAsSold(product.id)}
-                    className="flex-1 py-2 px-3 rounded-md flex items-center justify-center space-x-1 text-sm bg-orange-600 text-white hover:bg-orange-700"
+                    className="flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm bg-secondary text-black hover:bg-primary font-black"
                     title="Mark as sold"
                   >
                     <span>💰</span>
@@ -120,7 +120,7 @@ const ProductCard = ({
                 ) : (
                   <button
                     onClick={() => onMarkAsAvailable && onMarkAsAvailable(product.id)}
-                    className="flex-1 py-2 px-3 rounded-md flex items-center justify-center space-x-1 text-sm bg-green-600 text-white hover:bg-green-700"
+                    className="flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm bg-primary text-black hover:bg-secondary font-black"
                     title="Mark as available"
                   >
                     <span>🔄</span>
@@ -131,9 +131,9 @@ const ProductCard = ({
                 <button
                   onClick={() => onDelete(product.id)}
                   disabled={!product.isAvailable}
-                  className={`flex-1 py-2 px-3 rounded-md flex items-center justify-center space-x-1 text-sm ${
+                  className={`flex-1 py-2 px-3 border-3 border-black shadow-brutal-sm flex items-center justify-center space-x-1 text-sm font-black ${
                     product.isAvailable 
-                      ? 'bg-red-600 text-white hover:bg-red-700' 
+                      ? 'bg-red-300 text-black hover:bg-red-400' 
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                   title={!product.isAvailable ? 'Cannot delete sold products' : 'Delete product'}
@@ -147,7 +147,7 @@ const ProductCard = ({
             !isOwner && product.isAvailable && (
               <button
                 onClick={() => onChatClick && onChatClick(product)}
-                className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 flex items-center justify-center space-x-1"
+                className="w-full bg-primary text-black py-2 px-4 border-3 border-black shadow-brutal hover:bg-secondary flex items-center justify-center space-x-1 font-black"
               >
                 <MessageCircle size={16} />
                 <span>Chat</span>
@@ -156,7 +156,7 @@ const ProductCard = ({
           )}
           
           {!product.isAvailable && !showActions && (
-            <div className="w-full bg-gray-400 text-white py-2 px-4 rounded-md text-center">
+            <div className="w-full bg-gray-300 text-black py-2 px-4 border-3 border-black text-center font-black">
               Sold Out
             </div>
           )}

@@ -100,10 +100,12 @@ const Home = () => {
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">Browse Products</h1>
+          <h1 className="text-4xl font-black text-black bg-primary p-4 border-4 border-black shadow-brutal">
+            Browse Products
+          </h1>
           <Link
             to="/add-product"
-            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 flex items-center space-x-2"
+            className="bg-primary text-black px-6 py-3 border-3 border-black shadow-brutal hover:bg-secondary flex items-center space-x-2 font-black"
           >
             <Plus size={20} />
             <span>Add Product</span>
@@ -111,17 +113,17 @@ const Home = () => {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 border-4 border-black shadow-brutal">
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black" size={20} />
                 <input
                   type="text"
                   placeholder="Search products..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                  className="w-full pl-10 pr-4 py-3 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
                 />
               </div>
             </div>
@@ -130,7 +132,7 @@ const Home = () => {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                className="px-4 py-3 border-3 border-black shadow-brutal-sm bg-bg-secondary focus:outline-none font-bold"
               >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
@@ -142,7 +144,7 @@ const Home = () => {
               
               <button
                 type="submit"
-                className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 flex items-center space-x-2"
+                className="bg-secondary text-black px-6 py-3 border-3 border-black shadow-brutal hover:bg-primary flex items-center space-x-2 font-black"
               >
                 <Filter size={20} />
                 <span>Filter</span>
@@ -153,9 +155,13 @@ const Home = () => {
 
         {/* Products Grid */}
         {loading ? (
-          <div className="text-center py-12">Loading products...</div>
+          <div className="text-center py-12 bg-bg-secondary border-4 border-black shadow-brutal">
+            <div className="text-2xl font-black text-black">Loading products...</div>
+          </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">No products found</div>
+          <div className="text-center py-12 bg-bg-secondary border-4 border-black shadow-brutal">
+            <div className="text-2xl font-black text-black">No products found</div>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
@@ -176,10 +182,10 @@ const Home = () => {
               <button
                 key={i + 1}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 rounded-md ${
+                className={`px-4 py-2 border-3 border-black shadow-brutal-sm font-black ${
                   currentPage === i + 1
-                    ? 'bg-green-600 text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                    ? 'bg-primary text-black'
+                    : 'bg-white text-black hover:bg-bg-secondary'
                 }`}
               >
                 {i + 1}

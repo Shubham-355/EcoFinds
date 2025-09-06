@@ -65,15 +65,17 @@ const Messages = () => {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Messages</h1>
+        <h1 className="text-4xl font-black text-black mb-6 bg-primary p-4 border-4 border-black shadow-brutal">
+          Messages
+        </h1>
 
         {chats.length === 0 ? (
-          <div className="text-center py-12">
-            <MessageCircle className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-            <p className="text-gray-500 text-lg mb-4">No conversations yet</p>
+          <div className="text-center py-12 bg-bg-secondary border-4 border-black shadow-brutal">
+            <MessageCircle className="mx-auto h-16 w-16 text-black mb-4" />
+            <p className="text-black text-lg mb-4 font-bold">No conversations yet</p>
             <Link
               to="/"
-              className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 inline-block"
+              className="bg-primary text-black px-6 py-3 border-3 border-black shadow-brutal hover:bg-secondary inline-block font-black"
             >
               Browse Products
             </Link>
@@ -84,28 +86,28 @@ const Messages = () => {
               <div
                 key={chat.id}
                 onClick={() => handleChatSelect(chat)}
-                className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer"
+                className="bg-white border-4 border-black shadow-brutal p-4 hover:shadow-brutal-lg transition-all cursor-pointer hover:bg-bg-primary"
               >
                 <div className="flex items-center space-x-4">
                   <img
                     src={chat.product.image || '/api/placeholder/80/80'}
                     alt={chat.product.title}
-                    className="w-16 h-16 object-cover rounded-md"
+                    className="w-16 h-16 object-cover border-2 border-black"
                   />
                   
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">{chat.product.title}</h3>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600 mt-1">
+                    <h3 className="font-black text-black bg-bg-secondary p-2 border-2 border-black mb-2">{chat.product.title}</h3>
+                    <div className="flex items-center space-x-2 text-sm text-black mt-1 font-bold">
                       <User size={14} />
-                      <span>with {chat.otherUser.username}</span>
+                      <span className="bg-bg-primary p-1 border border-black">with {chat.otherUser.username}</span>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1 truncate">
+                    <p className="text-sm text-black mt-1 truncate font-bold bg-white p-1 border border-black">
                       {chat.lastMessage?.content || 'No messages yet'}
                     </p>
                   </div>
                   
                   <div className="text-right">
-                    <div className="flex items-center space-x-1 text-xs text-gray-500">
+                    <div className="flex items-center space-x-1 text-xs text-black font-bold bg-bg-secondary p-1 border border-black mb-2">
                       <Clock size={12} />
                       <span>
                         {chat.lastMessage 
@@ -114,7 +116,7 @@ const Messages = () => {
                         }
                       </span>
                     </div>
-                    <span className="text-lg font-bold text-green-600 mt-1 block">
+                    <span className="text-lg font-black text-black bg-primary p-2 border-2 border-black block">
                       ${chat.product.price}
                     </span>
                   </div>
