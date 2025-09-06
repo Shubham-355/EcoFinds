@@ -74,24 +74,24 @@ const Register = () => {
             <h2 className="brutal-header text-4xl mb-2 rounded-brutal inline-block">EcoFinds</h2>
             <p className="text-lg font-semibold text-gray-700">Second-Hand Marketplace</p>
           </div>
-          <h3 className="text-2xl font-bold text-black bg-primary px-6 py-3 rounded-brutal shadow-brutal inline-block border-3  ">
+          <h3 className="text-2xl font-bold text-black bg-primary px-6 py-3 rounded-brutal shadow-brutal inline-block brutal-border">
             JOIN THE REVOLUTION!
           </h3>
         </div>
         
         <form className="brutal-card p-8 space-y-6 rounded-brutal" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-100 border-3   text-black px-6 py-4 shadow-brutal font-black animate-pulse rounded-brutal">
+            <div className="bg-red-100 brutal-border text-black px-6 py-4 shadow-brutal font-black animate-pulse rounded-brutal">
               {error}
             </div>
           )}
           
           <div>
-            <label className="block text-base font-black text-black mb-2 bg-warning p-2     shadow-brutal-sm inline-block rounded-brutal-sm">
+            <label className="block text-base font-black text-black mb-2 bg-warning p-2 brutal-border shadow-brutal-sm inline-block rounded-brutal-sm">
               PROFILE PHOTO
             </label>
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-bg-secondary border-3   shadow-brutal-sm flex items-center justify-center overflow-hidden hover:bg-primary transition-all rounded-brutal-sm">
+              <div className="w-16 h-16 bg-bg-secondary brutal-border shadow-brutal-sm flex items-center justify-center overflow-hidden hover:bg-primary transition-all rounded-brutal-sm">
                 {preview ? (
                   <img src={preview} alt="Preview" className="w-full h-full object-cover" />
                 ) : (
@@ -103,13 +103,13 @@ const Register = () => {
                 name="profilePhoto"
                 accept="image/*"
                 onChange={handleChange}
-                className="block w-full text-sm text-black font-bold file:mr-3 file:py-2 file:px-3 file:  file:  file:bg-secondary file:text-black file:font-bold file:shadow-brutal-sm hover:file:bg-primary file:hover:shadow-brutal file:transition-all file:rounded-brutal-sm rounded-brutal-sm"
+                className="block w-full text-sm text-black font-bold file:mr-3 file:py-2 file:px-3 file:brutal-border file:bg-secondary file:text-black file:font-bold file:shadow-brutal-sm hover:file:bg-primary file:hover:shadow-brutal file:transition-all file:rounded-brutal-sm rounded-brutal-sm"
               />
             </div>
           </div>
           
           <div>
-            <label htmlFor="username" className="block text-base font-black text-black bg-warning p-2     shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
+            <label htmlFor="username" className="block text-base font-black text-black bg-warning p-2 brutal-border shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
               USERNAME
             </label>
             <input
@@ -125,7 +125,7 @@ const Register = () => {
           </div>
           
           <div>
-            <label htmlFor="email" className="block text-base font-black text-black bg-warning p-2     shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
+            <label htmlFor="email" className="block text-base font-black text-black bg-warning p-2 brutal-border shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
               EMAIL ADDRESS
             </label>
             <input
@@ -141,7 +141,7 @@ const Register = () => {
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-base font-black text-black bg-warning p-2     shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
+            <label htmlFor="password" className="block text-base font-black text-black bg-warning p-2 brutal-border shadow-brutal-sm mb-2 inline-block rounded-brutal-sm">
               PASSWORD
             </label>
             <input

@@ -4,7 +4,6 @@ import { ArrowLeft, ShoppingCart, User, MessageCircle, Edit, Trash2 } from 'luci
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Layout from '../components/Layout';
-import ChatModal from '../components/ChatModal';
 import EditProductModal from '../components/EditProductModal';
 
 const ProductDetail = () => {
@@ -13,7 +12,6 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showChat, setShowChat] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
@@ -92,6 +90,24 @@ const ProductDetail = () => {
     }
   };
 
+  const handleStartChat = async () => {
+    try {
+      // Create initial message to start conversation
+      await api.post('/chat/send', {
+        productId: id,
+        receiverId: product.user.id,
+        content: `Hi! I'm interested in your product: ${product.title}`,
+      });
+      
+      // Navigate to messages page
+      navigate('/messages');
+    } catch (error) {
+      console.error('Error starting chat:', error);
+      // If error, still navigate to messages page
+      navigate('/messages');
+    }
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -125,11 +141,11 @@ const ProductDetail = () => {
 
         <div className="bg-white brutal-border shadow-brutal overflow-hidden rounded-brutal">
           <div className="md:flex">
-            <div className="md:w-1/2 border-r-2 border-black">
+            <div className="md:w-1/2 border-r-2 border-black flex items-center justify-center bg-bg-secondary">
               <img
                 src={product.image || '/api/placeholder/600/400'}
                 alt={product.title}
-                className="w-full h-80 md:h-full object-cover"
+                className="w-full max-h-[70vh] object-contain"
               />
             </div>
             
@@ -214,7 +230,7 @@ const ProductDetail = () => {
                       <span>Add to Cart</span>
                     </button>
                     <button
-                      onClick={() => setShowChat(true)}
+                      onClick={handleStartChat}
                       className="w-full bg-primary text-black py-2 px-4 brutal-border shadow-brutal-sm hover:bg-secondary hover:shadow-brutal hover:translate-x-1 hover:translate-y-1 flex items-center justify-center space-x-2 text-sm font-black transition-all rounded-brutal-sm"
                     >
                       <MessageCircle size={16} />
@@ -237,18 +253,6 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-
-        {showChat && (
-          <ChatModal
-            productId={product.id}
-            sellerId={product.user.id}
-            sellerName={product.user.username}
-            productTitle={product.title}
-            originalPrice={product.price}
-            onClose={() => setShowChat(false)}
-            onOrderAgreed={handleOrderAgreed}
-          />
-        )}
 
         {showEdit && (
           <EditProductModal
