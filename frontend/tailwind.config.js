@@ -7,6 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: '#DCFD00',
+        secondary: '#FFD392',
+        'bg-primary': '#FFFFF4',
+        'bg-secondary': '#D9DBFF',
         green: {
           50: '#f0fdf4',
           100: '#dcfce7',
@@ -19,6 +23,11 @@ export default {
           800: '#166534',
           900: '#14532d',
         }
+      },
+      boxShadow: {
+        'brutal': '4px 4px 0px 0px #000000',
+        'brutal-sm': '2px 2px 0px 0px #000000',
+        'brutal-lg': '6px 6px 0px 0px #000000',
       }
     },
   },

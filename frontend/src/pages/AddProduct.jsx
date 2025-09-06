@@ -111,23 +111,25 @@ const AddProduct = () => {
         <div className="mb-6">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center space-x-2 text-black bg-bg-secondary p-2 border-3 border-black shadow-brutal-sm hover:bg-primary font-bold"
           >
             <ArrowLeft size={20} />
             <span>Back</span>
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 mt-4">Add New Product</h1>
+          <h1 className="text-4xl font-black text-black mt-4 bg-primary p-4 border-4 border-black shadow-brutal">
+            Add New Product
+          </h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white border-4 border-black shadow-brutal p-6 space-y-6">
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <div className="bg-red-300 border-3 border-black text-black px-4 py-3 shadow-brutal-sm font-bold">
               {error}
             </div>
           )}
 
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="title" className="block text-sm font-black text-black mb-2">
               Product Title *
             </label>
             <input
@@ -137,12 +139,12 @@ const AddProduct = () => {
               required
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
             />
           </div>
 
           <div>
-            <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="categoryId" className="block text-sm font-black text-black mb-2">
               Category *
             </label>
             <select
@@ -151,7 +153,7 @@ const AddProduct = () => {
               required
               value={formData.categoryId}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-secondary focus:outline-none font-bold"
             >
               <option value="">Select a category</option>
               {categories.map((category) => (
@@ -163,7 +165,7 @@ const AddProduct = () => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="description" className="block text-sm font-black text-black mb-2">
               Description *
             </label>
             <textarea
@@ -173,12 +175,12 @@ const AddProduct = () => {
               rows={4}
               value={formData.description}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
             />
           </div>
 
           <div>
-            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="price" className="block text-sm font-black text-black mb-2">
               Price ($) *
             </label>
             <input
@@ -190,24 +192,24 @@ const AddProduct = () => {
               step="0.01"
               value={formData.price}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+              className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-black text-black mb-2">
               Product Image *
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-md p-6">
+            <div className="border-4 border-black bg-bg-secondary p-6">
               {preview ? (
                 <div className="text-center">
-                  <img src={preview} alt="Preview" className="mx-auto h-32 w-32 object-cover rounded" />
-                  <p className="mt-2 text-sm text-gray-600">Click to change image</p>
+                  <img src={preview} alt="Preview" className="mx-auto h-32 w-32 object-cover border-2 border-black" />
+                  <p className="mt-2 text-sm text-black font-bold">Click to change image</p>
                 </div>
               ) : (
                 <div className="text-center">
-                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                  <p className="mt-2 text-sm text-gray-600">Click to upload an image</p>
+                  <Upload className="mx-auto h-12 w-12 text-black" />
+                  <p className="mt-2 text-sm text-black font-bold">Click to upload an image</p>
                 </div>
               )}
               <input
@@ -215,7 +217,7 @@ const AddProduct = () => {
                 name="image"
                 accept="image/*"
                 onChange={handleChange}
-                className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+                className="mt-2 block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:border-3 file:border-black file:bg-secondary file:text-black file:font-bold file:shadow-brutal-sm hover:file:bg-primary"
               />
             </div>
           </div>
@@ -224,14 +226,14 @@ const AddProduct = () => {
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              className="px-6 py-2 border-3 border-black shadow-brutal-sm text-black bg-bg-secondary hover:bg-bg-primary font-bold"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
+              className="px-6 py-2 bg-primary text-black border-3 border-black shadow-brutal hover:bg-secondary disabled:opacity-50 font-black"
             >
               {loading ? 'Creating...' : 'Submit Listing'}
             </button>

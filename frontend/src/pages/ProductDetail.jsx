@@ -116,16 +116,16 @@ const ProductDetail = () => {
         <div className="mb-6">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center space-x-2 text-black bg-bg-secondary p-2 border-3 border-black shadow-brutal-sm hover:bg-primary font-bold"
           >
             <ArrowLeft size={20} />
             <span>Back</span>
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white border-4 border-black shadow-brutal overflow-hidden">
           <div className="md:flex">
-            <div className="md:w-1/2">
+            <div className="md:w-1/2 border-r-4 border-black">
               <img
                 src={product.image || '/api/placeholder/600/400'}
                 alt={product.title}
@@ -134,44 +134,44 @@ const ProductDetail = () => {
             </div>
             
             <div className="md:w-1/2 p-6 md:p-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              <h1 className="text-3xl font-black text-black mb-4 bg-primary p-3 border-3 border-black shadow-brutal-sm">
                 {product.title}
               </h1>
               
               <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl font-bold text-green-600">
+                <span className="text-3xl font-black text-black bg-primary p-3 border-3 border-black shadow-brutal">
                   ${product.price}
                 </span>
                 {product.category && (
-                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                  <span className="bg-bg-secondary text-black px-3 py-1 border-2 border-black text-sm font-bold">
                     {product.category.name}
                   </span>
                 )}
               </div>
 
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-                <p className="text-gray-600 leading-relaxed">{product.description}</p>
+                <h3 className="text-lg font-black text-black mb-2 bg-bg-secondary p-2 border-2 border-black">Description</h3>
+                <p className="text-black leading-relaxed bg-bg-primary p-3 border-2 border-black font-bold">{product.description}</p>
               </div>
 
               {product.user && (
-                <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Seller Information</h3>
+                <div className="mb-6 p-4 bg-bg-secondary border-3 border-black shadow-brutal-sm">
+                  <h3 className="text-lg font-black text-black mb-2">Seller Information</h3>
                   <div className="flex items-center space-x-3">
                     {product.user.profilePhoto ? (
                       <img
                         src={product.user.profilePhoto}
                         alt={product.user.username}
-                        className="w-10 h-10 rounded-full object-cover"
+                        className="w-10 h-10 border-2 border-black object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        <User size={20} className="text-gray-500" />
+                      <div className="w-10 h-10 bg-white border-2 border-black flex items-center justify-center">
+                        <User size={20} className="text-black" />
                       </div>
                     )}
                     <div>
-                      <p className="font-medium text-gray-900">{product.user.username}</p>
-                      <p className="text-sm text-gray-500">Member since {new Date(product.user.createdAt).getFullYear()}</p>
+                      <p className="font-black text-black">{product.user.username}</p>
+                      <p className="text-sm text-black font-bold">Member since {new Date(product.user.createdAt).getFullYear()}</p>
                     </div>
                   </div>
                 </div>
@@ -183,23 +183,23 @@ const ProductDetail = () => {
                     <div className="flex space-x-3">
                       <button
                         onClick={() => setShowEdit(true)}
-                        className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                        className="flex-1 bg-secondary text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-primary flex items-center justify-center space-x-2 text-lg font-black"
                       >
                         <Edit size={20} />
                         <span>Edit Product</span>
                       </button>
                       <button
                         onClick={handleDelete}
-                        className="flex-1 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                        className="flex-1 bg-red-300 text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-red-400 flex items-center justify-center space-x-2 text-lg font-black"
                       >
                         <Trash2 size={20} />
                         <span>Delete</span>
                       </button>
                     </div>
                   ) : (
-                    <div className="text-center text-gray-600 py-3">
-                      <p className="mb-2">This product has been sold</p>
-                      <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
+                    <div className="text-center text-black py-3 bg-bg-secondary border-3 border-black shadow-brutal">
+                      <p className="mb-2 font-bold">This product has been sold</p>
+                      <span className="bg-red-300 text-black px-3 py-1 border-2 border-black text-sm font-black">
                         SOLD
                       </span>
                     </div>
@@ -208,27 +208,27 @@ const ProductDetail = () => {
                   <>
                     <button
                       onClick={handleAddToCart}
-                      className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                      className="w-full bg-secondary text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-primary flex items-center justify-center space-x-2 text-lg font-black"
                     >
                       <ShoppingCart size={20} />
                       <span>Add to Cart</span>
                     </button>
                     <button
                       onClick={() => setShowChat(true)}
-                      className="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 flex items-center justify-center space-x-2 text-lg font-semibold"
+                      className="w-full bg-primary text-black py-3 px-6 border-3 border-black shadow-brutal hover:bg-secondary flex items-center justify-center space-x-2 text-lg font-black"
                     >
                       <MessageCircle size={20} />
                       <span>Chat with Seller</span>
                     </button>
                   </>
                 ) : (
-                  <div className="w-full bg-gray-400 text-white py-3 px-6 rounded-md text-center text-lg font-semibold">
+                  <div className="w-full bg-gray-300 text-black py-3 px-6 border-3 border-black text-center text-lg font-black">
                     Not Available
                   </div>
                 )}
               </div>
 
-              <div className="mt-6 text-sm text-gray-500">
+              <div className="mt-6 text-sm text-black bg-bg-primary p-2 border-2 border-black font-bold">
                 <p>Posted on {new Date(product.createdAt).toLocaleDateString()}</p>
                 {product.updatedAt !== product.createdAt && (
                   <p>Updated on {new Date(product.updatedAt).toLocaleDateString()}</p>

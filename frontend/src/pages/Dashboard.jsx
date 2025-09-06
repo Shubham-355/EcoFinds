@@ -94,15 +94,19 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto space-y-6">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-4xl font-black text-black bg-primary p-4 border-4 border-black shadow-brutal">
+          Dashboard
+        </h1>
 
         {/* Profile Section */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white border-4 border-black shadow-brutal p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">Profile Information</h2>
+            <h2 className="text-xl font-black text-black bg-bg-secondary p-2 border-2 border-black">
+              Profile Information
+            </h2>
             <button
               onClick={() => setEditing(!editing)}
-              className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
+              className="flex items-center space-x-2 text-black bg-secondary p-2 border-2 border-black shadow-brutal-sm hover:bg-primary font-bold"
             >
               <Edit2 size={16} />
               <span>{editing ? 'Cancel' : 'Edit Profile'}</span>
@@ -113,16 +117,16 @@ const Dashboard = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="flex items-center space-x-6">
                 <div className="relative">
-                  <div className="w-24 h-24 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-24 h-24 bg-bg-secondary border-3 border-black overflow-hidden">
                     {preview ? (
                       <img src={preview} alt="Profile" className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <User size={32} className="text-gray-500" />
+                        <User size={32} className="text-black" />
                       </div>
                     )}
                   </div>
-                  <label className="absolute bottom-0 right-0 bg-blue-600 text-white p-1 rounded-full cursor-pointer hover:bg-blue-700">
+                  <label className="absolute bottom-0 right-0 bg-secondary text-black p-1 border-2 border-black cursor-pointer hover:bg-primary">
                     <Camera size={16} />
                     <input
                       type="file"
@@ -135,7 +139,7 @@ const Dashboard = () => {
                 </div>
                 <div className="flex-1 space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-black text-black mb-1">
                       Username
                     </label>
                     <input
@@ -143,11 +147,11 @@ const Dashboard = () => {
                       name="username"
                       value={formData.username}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+                      className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-black text-black mb-1">
                       Email
                     </label>
                     <input
@@ -155,7 +159,7 @@ const Dashboard = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500"
+                      className="w-full px-3 py-2 border-3 border-black shadow-brutal-sm bg-bg-primary focus:outline-none focus:bg-white font-bold"
                     />
                   </div>
                 </div>
@@ -164,14 +168,14 @@ const Dashboard = () => {
                 <button
                   type="button"
                   onClick={() => setEditing(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 border-3 border-black shadow-brutal-sm text-black bg-bg-secondary hover:bg-bg-primary font-bold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary text-black border-3 border-black shadow-brutal-sm hover:bg-secondary disabled:opacity-50 font-black"
                 >
                   {loading ? 'Saving...' : 'Save Changes'}
                 </button>
@@ -179,24 +183,24 @@ const Dashboard = () => {
             </form>
           ) : (
             <div className="flex items-center space-x-6">
-              <div className="w-24 h-24 bg-gray-200 rounded-full overflow-hidden">
+              <div className="w-24 h-24 bg-bg-secondary border-3 border-black overflow-hidden">
                 {user?.profilePhoto ? (
                   <img src={user.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <User size={32} className="text-gray-500" />
+                    <User size={32} className="text-black" />
                   </div>
                 )}
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold text-gray-900">{user?.username}</h3>
-                <div className="flex items-center space-x-2 text-gray-600">
+                <h3 className="text-2xl font-black text-black bg-primary p-2 border-2 border-black">{user?.username}</h3>
+                <div className="flex items-center space-x-2 text-black font-bold">
                   <Mail size={16} />
-                  <span>{user?.email}</span>
+                  <span className="bg-bg-secondary p-1 border border-black">{user?.email}</span>
                 </div>
-                <div className="flex items-center space-x-2 text-gray-600">
+                <div className="flex items-center space-x-2 text-black font-bold">
                   <Calendar size={16} />
-                  <span>Joined {new Date(user?.createdAt).toLocaleDateString()}</span>
+                  <span className="bg-bg-secondary p-1 border border-black">Joined {new Date(user?.createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
             </div>
@@ -206,38 +210,38 @@ const Dashboard = () => {
         {/* Statistics */}
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white border-4 border-black shadow-brutal p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Listings</p>
-                  <p className="text-2xl font-bold text-green-600">{stats.totalListings}</p>
+                  <p className="text-sm font-black text-black bg-bg-secondary p-1 border border-black">Total Listings</p>
+                  <p className="text-2xl font-black text-black bg-primary p-2 border-2 border-black mt-2">{stats.totalListings}</p>
                 </div>
-                <div className="p-3 bg-green-100 rounded-full">
-                  <Package className="h-6 w-6 text-green-600" />
+                <div className="p-3 bg-bg-secondary border-2 border-black">
+                  <Package className="h-6 w-6 text-black" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white border-4 border-black shadow-brutal p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.totalOrders}</p>
+                  <p className="text-sm font-black text-black bg-bg-secondary p-1 border border-black">Total Orders</p>
+                  <p className="text-2xl font-black text-black bg-secondary p-2 border-2 border-black mt-2">{stats.totalOrders}</p>
                 </div>
-                <div className="p-3 bg-blue-100 rounded-full">
-                  <Package className="h-6 w-6 text-blue-600" />
+                <div className="p-3 bg-bg-secondary border-2 border-black">
+                  <Package className="h-6 w-6 text-black" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white border-4 border-black shadow-brutal p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                  <p className="text-2xl font-bold text-purple-600">${stats.totalRevenue?.toFixed(2) || '0.00'}</p>
+                  <p className="text-sm font-black text-black bg-bg-secondary p-1 border border-black">Total Revenue</p>
+                  <p className="text-2xl font-black text-black bg-primary p-2 border-2 border-black mt-2">${stats.totalRevenue?.toFixed(2) || '0.00'}</p>
                 </div>
-                <div className="p-3 bg-purple-100 rounded-full">
-                  <Package className="h-6 w-6 text-purple-600" />
+                <div className="p-3 bg-bg-secondary border-2 border-black">
+                  <Package className="h-6 w-6 text-black" />
                 </div>
               </div>
             </div>
