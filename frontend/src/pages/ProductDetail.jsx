@@ -37,10 +37,19 @@ const ProductDetail = () => {
   const handleAddToCart = async () => {
     try {
       await api.post('/cart/add', { productId: id, quantity: 1 });
-      alert('Product added to cart!');
+      // Show success notification instead of alert
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Product added to cart!';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Failed to add product to cart');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Failed to add product to cart';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
     }
   };
 
@@ -77,35 +86,59 @@ const ProductDetail = () => {
       }
       
       await api.post('/orders/checkout-direct', payload);
-      alert('Order completed successfully!');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Order completed successfully!';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
       setShowChat(false);
       navigate('/orders');
     } catch (error) {
       console.error('Error completing order:', error);
-      alert('Failed to complete order');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Failed to complete order';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
     }
   };
 
   const handleEditComplete = (updatedProduct) => {
     setProduct(updatedProduct);
     setShowEdit(false);
-    alert('Product updated successfully!');
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+    notification.textContent = 'Product updated successfully!';
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
   };
 
   const handleDelete = async () => {
     if (!product.isAvailable) {
-      alert('Cannot delete sold products');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-yellow-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+      notification.textContent = 'Cannot delete sold products';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
       return;
     }
     
     if (window.confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
       try {
         await api.delete(`/products/${id}`);
-        alert('Product deleted successfully!');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-green-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = 'Product deleted successfully!';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
         navigate('/my-listings');
       } catch (error) {
         console.error('Error deleting product:', error);
-        alert(error.response?.data?.error || 'Failed to delete product');
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-red-300 text-black px-4 py-2 brutal-border shadow-brutal font-bold rounded-brutal z-50';
+        notification.textContent = error.response?.data?.error || 'Failed to delete product';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
       }
     }
   };

@@ -21,6 +21,8 @@ model User {
   sentMessages     Message[]  @relation("SentMessages")
   orders           Order[]
   products         Product[]
+  auctions          Auction[]
+  bids              Bid[]
 
   @@map("users")
 }
@@ -29,6 +31,7 @@ model Category {
   id       String    @id @default(cuid())
   name     String    @unique
   products Product[]
+  auctions  Auction[]
 
   @@map("categories")
 }
@@ -112,8 +115,60 @@ model Message {
   @@map("messages")
 }
 
+model Auction {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  startingBid   Float
+  reservePrice  Float?   // Minimum price seller will accept
+  startTime     DateTime
+  endTime       DateTime
+  status        AuctionStatus @default(SCHEDULED)
+  image         String?
+  categoryId    String
+  userId        String   // Seller
+  winningBidId  String?  @unique // Reference to winning bid
+  
+  user          User     @relation(fields: [userId], references: [id])
+  category      Category @relation(fields: [categoryId], references: [id])
+  bids          Bid[]
+  winningBid    Bid?     @relation("WinningBid", fields: [winningBidId], references: [id])
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Bid {
+  id         String   @id @default(cuid())
+  amount     Float
+  auctionId  String
+  userId     String   // Bidder
+  status     BidStatus @default(ACTIVE)
+  
+  auction    Auction  @relation(fields: [auctionId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  wonAuction Auction? @relation("WinningBid")
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 enum OrderStatus {
   PENDING
   COMPLETED
   CANCELLED
+}
+
+enum AuctionStatus {
+  SCHEDULED
+  LIVE
+  ENDED
+  CANCELLED
+}
+
+enum BidStatus {
+  ACTIVE
+  OUTBID
+  WINNING
+  WON
 }

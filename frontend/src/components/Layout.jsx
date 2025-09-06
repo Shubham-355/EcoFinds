@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, Plus, MessageCircle, Package, Menu, X, LogOut } from 'lucide-react';
+import { ShoppingCart, User, Plus, MessageCircle, Package, Menu, X, LogOut, Gavel } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ChatbotButton from './ChatbotButton';
 import api from '../utils/api';
@@ -102,6 +102,14 @@ const Layout = ({ children }) => {
                   >
                     <Package size={16} />
                     <span>Orders</span>
+                  </Link>
+
+                  <Link
+                    to="/auctions"
+                    className="flex items-center space-x-1 brutal-btn brutal-btn-secondary text-xs hover:translate-x-1 hover:translate-y-1 transition-all rounded-brutal-sm"
+                  >
+                    <Gavel size={16} />
+                    <span>Auctions</span>
                   </Link>
 
                   <div className="relative">
@@ -219,6 +227,15 @@ const Layout = ({ children }) => {
                     >
                       <Package size={16} className="inline mr-2" />
                       Orders
+                    </Link>
+
+                    <Link
+                      to="/auctions"
+                      className="block px-3 py-2 text-sm font-bold text-black hover:bg-primary transition-colors rounded-brutal-sm"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Gavel size={16} className="inline mr-2" />
+                      Auctions
                     </Link>
 
                     <Link

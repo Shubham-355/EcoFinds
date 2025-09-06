@@ -13,6 +13,9 @@ import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import Dashboard from './pages/Dashboard';
 import Messages from './pages/Messages';
+import Auctions from './pages/Auctions';
+import CreateAuction from './pages/CreateAuction';
+import AuctionDetail from './pages/AuctionDetail';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -83,6 +86,21 @@ function App() {
             <Route path="/messages" element={
               <ProtectedRoute>
                 <Messages />
+              </ProtectedRoute>
+            } />
+            <Route path="/auctions" element={
+              <ProtectedRoute>
+                <Auctions />
+              </ProtectedRoute>
+            } />
+            <Route path="/create-auction" element={
+              <ProtectedRoute>
+                <CreateAuction />
+              </ProtectedRoute>
+            } />
+            <Route path="/auction/:id" element={
+              <ProtectedRoute>
+                <AuctionDetail />
               </ProtectedRoute>
             } />
           </Routes>
