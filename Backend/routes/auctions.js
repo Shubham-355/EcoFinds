@@ -5,6 +5,127 @@ import { upload } from '../config/cloudinary.js';
 
 const router = express.Router();
 
+// Create auction
+router.post('/', authenticateToken, upload.single('image'), async (req, res) => {
+  try {
+    const { title, description, startingBid, reservePrice, categoryId, startTime, endTime } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'Auction image is required' });
+    }
+
+    // Validate required fields
+    if (!title || !description || !startingBid || !categoryId || !startTime || !endTime) {
+      return res.status(400).json({ error: 'All required fields must be provided' });
+    }
+
+    // Validate dates
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    const now = new Date();
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return res.status(400).json({ error: 'Invalid date format' });
+    }
+
+    if (start <= now) {
+      return res.status(400).json({ error: 'Start time must be in the future' });
+    }
+
+    if (end <= start) {
+      return res.status(400).json({ error: 'End time must be after start time' });
+    }
+
+    if (end - start < 30 * 60 * 1000) {
+      return res.status(400).json({ error: 'Auction must run for at least 30 minutes' });
+    }
+
+    // Validate bid amounts
+    const startingBidNum = parseFloat(startingBid);
+    const reservePriceNum = reservePrice ? parseFloat(reservePrice) : null;
+
+    if (isNaN(startingBidNum) || startingBidNum <= 0) {
+      return res.status(400).json({ error: 'Valid starting bid is required' });
+    }
+
+    if (reservePriceNum && (isNaN(reservePriceNum) || reservePriceNum < startingBidNum)) {
+      return res.status(400).json({ error: 'Reserve price must be higher than starting bid' });
+    }
+
+    // Determine initial status
+    const initialStatus = start <= now ? 'LIVE' : 'SCHEDULED';
+
+    // Create auction with timeout handling
+    const auction = await Promise.race([
+      prisma.auction.create({
+        data: {
+          title: title.trim(),
+          description: description.trim(),
+          startingBid: startingBidNum,
+          reservePrice: reservePriceNum,
+          image: req.file.path,
+          userId: req.user.id,
+          categoryId,
+          startTime: start,
+          endTime: end,
+          status: initialStatus
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              profilePhoto: true,
+            }
+          },
+          category: {
+            select: {
+              id: true,
+              name: true,
+            }
+          },
+          _count: {
+            select: {
+              bids: true
+            }
+          }
+        }
+      }),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Database operation timeout')), 30000)
+      )
+    ]);
+
+    res.status(201).json({
+      message: 'Auction created successfully',
+      auction
+    });
+  } catch (error) {
+    console.error('Create auction error:', error);
+    
+    if (error.message === 'Database operation timeout') {
+      return res.status(408).json({ error: 'Request timeout. Please try again.' });
+    }
+    
+    if (error.name === 'TimeoutError' || error.http_code === 499) {
+      return res.status(408).json({ error: 'Upload timeout. Please try with a smaller image.' });
+    }
+    
+    // Handle Prisma/Database errors
+    if (error.code === 'P2002') {
+      return res.status(400).json({ error: 'A unique constraint failed. Please check your data.' });
+    }
+    
+    if (error.code === 'P2025') {
+      return res.status(404).json({ error: 'Category not found. Please select a valid category.' });
+    }
+    
+    res.status(500).json({ 
+      error: error.message || 'Failed to create auction' 
+    });
+  }
+});
+
 // Get all auctions with filters
 router.get('/', async (req, res) => {
   try {
@@ -37,6 +158,9 @@ router.get('/', async (req, res) => {
           },
           orderBy: { amount: 'desc' },
           take: 1
+        },
+        _count: {
+          select: { bids: true }
         }
       },
       orderBy: { startTime: 'asc' },
@@ -50,12 +174,13 @@ router.get('/', async (req, res) => {
       auctions: auctions.map(auction => ({
         ...auction,
         currentBid: auction.bids[0]?.amount || auction.startingBid,
-        bidCount: auction.bids.length || 0,
+        bidCount: auction._count.bids || 0,
         highestBidder: auction.bids[0]?.user
       })),
       pagination: {
         current: parseInt(page),
         total: Math.ceil(total / limit),
+        totalPages: Math.ceil(total / limit),
         hasNext: skip + parseInt(limit) < total,
         hasPrev: page > 1
       }
@@ -102,95 +227,6 @@ router.get('/:id', async (req, res) => {
   } catch (error) {
     console.error('Get auction error:', error);
     res.status(500).json({ error: 'Failed to fetch auction' });
-  }
-});
-
-// Create auction
-router.post('/', authenticateToken, upload.single('image'), async (req, res) => {
-  try {
-    const { title, description, startingBid, reservePrice, categoryId, startTime, endTime } = req.body;
-
-    if (!req.file) {
-      return res.status(400).json({ error: 'Auction image is required' });
-    }
-
-    // Validate dates
-    const start = new Date(startTime);
-    const end = new Date(endTime);
-    const now = new Date();
-
-    if (start <= now) {
-      return res.status(400).json({ error: 'Start time must be in the future' });
-    }
-
-    if (end <= start) {
-      return res.status(400).json({ error: 'End time must be after start time' });
-    }
-
-    if (end - start < 30 * 60 * 1000) {
-      return res.status(400).json({ error: 'Auction must run for at least 30 minutes' });
-    }
-
-    // Create auction with timeout handling
-    const auction = await Promise.race([
-      prisma.auction.create({
-        data: {
-          title,
-          description,
-          startingBid: parseFloat(startingBid),
-          reservePrice: reservePrice ? parseFloat(reservePrice) : null,
-          currentBid: parseFloat(startingBid),
-          image: req.file.path,
-          userId: req.user.id,
-          categoryId,
-          startTime: start,
-          endTime: end,
-          status: start <= now ? 'ACTIVE' : 'SCHEDULED'
-        },
-        include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              profilePhoto: true,
-            }
-          },
-          category: {
-            select: {
-              id: true,
-              name: true,
-            }
-          },
-          _count: {
-            select: {
-              bids: true
-            }
-          }
-        }
-      }),
-      new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Database operation timeout')), 30000)
-      )
-    ]);
-
-    res.status(201).json({
-      message: 'Auction created successfully',
-      auction
-    });
-  } catch (error) {
-    console.error('Create auction error:', error);
-    
-    if (error.message === 'Database operation timeout') {
-      return res.status(408).json({ error: 'Request timeout. Please try again.' });
-    }
-    
-    if (error.name === 'TimeoutError' || error.http_code === 499) {
-      return res.status(408).json({ error: 'Upload timeout. Please try with a smaller image.' });
-    }
-    
-    res.status(500).json({ 
-      error: error.message || 'Failed to create auction' 
-    });
   }
 });
 
