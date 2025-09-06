@@ -11,6 +11,7 @@ import categoryRoutes from './routes/categories.js';
 import cartRoutes from './routes/cart.js';
 import orderRoutes from './routes/orders.js';
 import chatRoutes from './routes/chat.js';
+import chatbotRoutes from './routes/chatbot.js';
 
 // Load environment variables
 dotenv.config();
@@ -35,6 +36,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

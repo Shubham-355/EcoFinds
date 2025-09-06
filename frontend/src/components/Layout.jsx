@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ShoppingCart, User, LogOut, Package, Home, MessageCircle } from 'lucide-react';
+import ChatbotButton from './ChatbotButton';
 
 const Layout = ({ children }) => {
   const { user, logout } = useAuth();
@@ -60,9 +61,14 @@ const Layout = ({ children }) => {
         </div>
       </header>
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
+      <main className="pt-16">
+        <div className="container mx-auto px-4 py-8">
+          {children}
+        </div>
       </main>
+
+      {/* Add the chatbot button */}
+      <ChatbotButton />
     </div>
   );
 };
