@@ -21,7 +21,7 @@ const ProductCard = ({
   const isOwner = user && product.user && user.id === product.user.id;
 
   return (
-    <div className={`bg-white brutal-border shadow-brutal-sm overflow-hidden hover:shadow-brutal transition-all rounded-brutal ${
+    <div className={`relative bg-white brutal-border shadow-brutal-sm overflow-hidden hover:shadow-brutal transition-all rounded-brutal ${
       isSelected ? 'ring-2 ring-primary' : ''
     }`}>
       {showSelection && showActions && isOwner && (
@@ -67,8 +67,9 @@ const ProductCard = ({
               </span>
             )}
             {!product.isAvailable && (
-              <span className="bg-red-300 text-black px-1 py-0.5 text-xs font-black brutal-border rounded-brutal-xs">
+              <span className="relative bg-red-300 text-black px-1 py-0.5 text-xs font-black brutal-border rounded-brutal-xs">
                 SOLD
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 border border-black rounded-full"></div>
               </span>
             )}
           </div>
@@ -144,17 +145,19 @@ const ProductCard = ({
             !isOwner && product.isAvailable && (
               <button
                 onClick={() => onChatClick && onChatClick(product)}
-                className="w-full brutal-btn brutal-btn-primary flex items-center justify-center space-x-1"
+                className="relative w-full brutal-btn brutal-btn-primary flex items-center justify-center space-x-1"
               >
                 <MessageCircle size={12} />
                 <span>Chat</span>
+                <span className="notification-dot bg-success border-black"></span>
               </button>
             )
           )}
           
           {!product.isAvailable && !showActions && (
-            <div className="w-full bg-gray-300 text-black py-1 px-2 brutal-border text-center text-xs font-black rounded-brutal-xs">
+            <div className="relative w-full bg-gray-300 text-black py-1 px-2 brutal-border text-center text-xs font-black rounded-brutal-xs">
               Sold Out
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-gray-500 border border-black rounded-full"></div>
             </div>
           )}
         </div>

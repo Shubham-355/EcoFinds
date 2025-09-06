@@ -67,7 +67,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-4">
+    <div className="min-h-screen flex items-center justify-center bg-bg-primary p-4">
       <div className="max-w-md w-full space-y-6">
         <div className="text-center">
           <div className="brutal-card p-8 mb-6 rounded-brutal">

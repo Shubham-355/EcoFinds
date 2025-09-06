@@ -37,21 +37,21 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-4">
+    <div className="min-h-screen flex items-center justify-center bg-bg-primary p-4">
       <div className="max-w-md w-full space-y-6">
         <div className="text-center">
           <div className="brutal-card p-8 mb-6 rounded-brutal">
             <h2 className="brutal-header text-4xl mb-2 rounded-brutal inline-block">EcoFinds</h2>
             <p className="text-lg font-semibold text-gray-700">Second-Hand Marketplace</p>
           </div>
-          <h3 className="text-2xl font-bold text-black bg-primary px-6 py-3 rounded-brutal shadow-brutal inline-block border-3  ">
+          <h3 className="text-2xl font-bold text-black bg-primary px-6 py-3 rounded-brutal shadow-brutal inline-block brutal-border">
             WELCOME BACK
           </h3>
         </div>
         
         <form className="brutal-card p-8 space-y-6 rounded-brutal" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-100 border-3   text-black px-4 py-3 shadow-brutal font-bold rounded-brutal">
+            <div className="bg-red-100 brutal-border text-black px-4 py-3 shadow-brutal font-bold rounded-brutal">
               {error}
             </div>
           )}

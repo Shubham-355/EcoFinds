@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Layout from '../components/Layout';
 import EditProductModal from '../components/EditProductModal';
+import ChatModal from '../components/ChatModal';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showEdit, setShowEdit] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
     fetchProduct();
@@ -39,6 +41,24 @@ const ProductDetail = () => {
     } catch (error) {
       console.error('Error adding to cart:', error);
       alert('Failed to add product to cart');
+    }
+  };
+
+  const handleStartChat = async () => {
+    try {
+      // Create initial message to start conversation
+      await api.post('/chat/send', {
+        productId: id,
+        receiverId: product.user.id,
+        content: `Hi! I'm interested in your product: ${product.title}`,
+      });
+      
+      // Open chat modal instead of navigating
+      setShowChat(true);
+    } catch (error) {
+      console.error('Error starting chat:', error);
+      // If error, still open chat modal
+      setShowChat(true);
     }
   };
 
@@ -87,24 +107,6 @@ const ProductDetail = () => {
         console.error('Error deleting product:', error);
         alert(error.response?.data?.error || 'Failed to delete product');
       }
-    }
-  };
-
-  const handleStartChat = async () => {
-    try {
-      // Create initial message to start conversation
-      await api.post('/chat/send', {
-        productId: id,
-        receiverId: product.user.id,
-        content: `Hi! I'm interested in your product: ${product.title}`,
-      });
-      
-      // Navigate to messages page
-      navigate('/messages');
-    } catch (error) {
-      console.error('Error starting chat:', error);
-      // If error, still navigate to messages page
-      navigate('/messages');
     }
   };
 
@@ -158,16 +160,24 @@ const ProductDetail = () => {
                 <span className="text-2xl font-black text-black bg-primary p-2 shadow-brutal-sm rounded-brutal-sm">
                   ${product.price}
                 </span>
-                {product.category && (
-                  <span className="bg-bg-secondary text-black px-2 py-1 brutal-border text-sm font-bold rounded-brutal-sm">
-                    {product.category.name}
-                  </span>
-                )}
+                <div className="flex items-center space-x-2">
+                  {product.category && (
+                    <span className="bg-bg-secondary text-black px-2 py-1 brutal-border text-sm font-bold rounded-brutal-sm">
+                      {product.category.name}
+                    </span>
+                  )}
+                  {!product.isAvailable && (
+                    <span className="bg-red-300 text-black px-2 py-1 brutal-border text-sm font-black rounded-brutal-sm relative">
+                      SOLD
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 border border-black rounded-full"></div>
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="mb-4">
                 <h3 className="text-md font-black text-black mb-2 bg-bg-secondary p-2 brutal-border rounded-brutal-sm">Description</h3>
-                <p className="text-black leading-relaxed bg-bg-primary p-2 brutal-border font-bold rounded-brutal-sm text-sm">{product.description}</p>
+                <p className="text-black leading-relaxed bg-white p-2 brutal-border font-bold rounded-brutal-sm text-sm">{product.description}</p>
               </div>
 
               {product.user && (
@@ -244,10 +254,15 @@ const ProductDetail = () => {
                 )}
               </div>
 
-              <div className="mt-4 text-xs text-black bg-bg-primary p-2 font-bold rounded-brutal-sm">
+              <div className="mt-4 text-xs text-black bg-white p-2 font-bold rounded-brutal-sm">
                 <p className="bg-bg-secondary p-1 mb-1 rounded-brutal-xs">Posted on {new Date(product.createdAt).toLocaleDateString()}</p>
                 {product.updatedAt !== product.createdAt && (
                   <p className="bg-bg-secondary p-1 brutal-border rounded-brutal-xs">Updated on {new Date(product.updatedAt).toLocaleDateString()}</p>
+                )}
+                {!product.isAvailable && (
+                  <p className="bg-red-200 p-1 brutal-border rounded-brutal-xs mt-1 font-black">
+                    🔴 This item has been sold
+                  </p>
                 )}
               </div>
             </div>
@@ -259,6 +274,18 @@ const ProductDetail = () => {
             product={product}
             onClose={() => setShowEdit(false)}
             onUpdate={handleEditComplete}
+          />
+        )}
+
+        {showChat && product && (
+          <ChatModal
+            productId={product.id}
+            sellerId={product.user.id}
+            sellerName={product.user.username}
+            productTitle={product.title}
+            originalPrice={product.price}
+            onClose={() => setShowChat(false)}
+            onOrderAgreed={handleOrderAgreed}
           />
         )}
       </div>

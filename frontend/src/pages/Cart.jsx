@@ -92,9 +92,16 @@ const Cart = () => {
     <Layout>
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-          <h1 className="brutal-header text-2xl bg-primary px-6 py-3 brutal-border shadow-brutal-sm rounded-brutal">
-            SHOPPING CART
-          </h1>
+          <div className="relative">
+            <h1 className="brutal-header text-2xl bg-primary px-6 py-3 brutal-border shadow-brutal-sm rounded-brutal">
+              SHOPPING CART
+            </h1>
+            {cartItems.length > 0 && (
+              <span className="notification-count bg-secondary text-black">
+                {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+              </span>
+            )}
+          </div>
           {cartItems.length > 0 && (
             <button
               onClick={clearCart}
@@ -133,7 +140,7 @@ const Cart = () => {
                 </Link>
               </div>
               
-              <div className="bg-bg-primary p-4 brutal-border rounded-brutal-sm max-w-sm mx-auto">
+              <div className="bg-white p-4 brutal-border rounded-brutal-sm max-w-sm mx-auto">
                 <p className="text-xs font-bold text-black">
                   💡 <span className="bg-warning px-1 py-0.5 rounded-brutal-xs">TIP:</span> 
                   Join our sustainable marketplace and help reduce waste by buying second-hand items!
@@ -165,7 +172,7 @@ const Cart = () => {
                         by {item.product.user.username}
                       </p>
                       {item.product.category && (
-                        <p className="text-xs font-semibold text-black bg-bg-primary px-2 py-1 brutal-border rounded-brutal-xs inline-block mr-2">
+                        <p className="text-xs font-semibold text-black bg-white px-2 py-1 brutal-border rounded-brutal-xs inline-block mr-2">
                           {item.product.category.name}
                         </p>
                       )}
@@ -193,10 +200,10 @@ const Cart = () => {
                     </div>
                     
                     <div className="text-right">
-                      <p className="text-sm font-bold text-black bg-bg-primary px-2 py-1 brutal-border rounded-brutal-xs mb-2">
+                      <p className="text-sm font-bold text-black bg-white px-2 py-1 brutal-border rounded-brutal-xs mb-2">
                         Subtotal
                       </p>
-                      <p className="text-lg font-black text-black bg-secondary px-2 py-1 brutal-border rounded-brutal-xs shadow-brutal-xs">
+                      <p className="text-lg font-black text-black bg-white px-2 py-1 brutal-border rounded-brutal-xs shadow-brutal-xs">
                         ${(item.product.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
@@ -216,14 +223,17 @@ const Cart = () => {
             {/* Cart Summary */}
             <div className="bg-white brutal-border shadow-brutal p-6 rounded-brutal">
               <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-bg-secondary brutal-border rounded-brutal-sm">
+                <div className="relative flex justify-between items-center p-3 bg-bg-secondary brutal-border rounded-brutal-sm">
                   <span className="text-md font-black text-black">Items in cart:</span>
                   <span className="font-black text-black bg-primary px-2 py-1 brutal-border rounded-brutal-xs">
                     {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
+                  {cartItems.length > 3 && (
+                    <span className="notification-dot bg-warning border-black"></span>
+                  )}
                 </div>
                 
-                <div className="flex justify-between items-center p-4 bg-bg-primary brutal-border rounded-brutal-sm">
+                <div className="flex justify-between items-center p-4 bg-white brutal-border rounded-brutal-sm">
                   <span className="text-xl font-black text-black bg-warning px-3 py-2 brutal-border rounded-brutal-sm">
                     TOTAL:
                   </span>
@@ -235,9 +245,12 @@ const Cart = () => {
                 <button
                   onClick={handleCheckout}
                   disabled={checkoutLoading}
-                  className="w-full brutal-btn brutal-btn-primary text-lg py-4 disabled:opacity-50 rounded-brutal font-black"
+                  className="relative w-full brutal-btn brutal-btn-primary text-lg py-4 disabled:opacity-50 rounded-brutal font-black"
                 >
                   {checkoutLoading ? 'PROCESSING...' : 'PROCEED TO CHECKOUT'}
+                  {!checkoutLoading && (
+                    <span className="notification-dot bg-success border-black"></span>
+                  )}
                 </button>
                 
                 <Link
