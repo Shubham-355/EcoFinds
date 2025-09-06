@@ -48,7 +48,7 @@ export default {
         'brutal-right': '0 8px 8px 0',
       },
       fontFamily: {
-        'sans': ['Inter', 'Arial', 'sans-serif'],
+        'sans': ['Space Grotesk', 'Inter', 'Arial', 'sans-serif'],
       },
       animation: {
         'bounce-slow': 'bounce 2s infinite',

@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
 /* Global Neubrutalism Styles */
 * {
@@ -7,10 +7,11 @@
 }
 
 body {
-  font-family: 'Inter', 'Arial', sans-serif;
+  font-family: 'Space Grotesk', 'Inter', 'Arial', sans-serif;
   background-color: #FFFFF4;
   color: #000000;
   font-weight: 600;
+  font-optical-sizing: auto;
 }
 
 /* Brutal Button Styles with Smaller Sizes */
@@ -27,6 +28,7 @@ body {
   border-radius: 8px;
   -webkit-appearance: none;
   appearance: none;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
 }
 
 .brutal-border{
@@ -41,6 +43,7 @@ body {
   border-radius: 8px;
   -webkit-appearance: none;
   appearance: none;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
 }
 
 .brutal-btn:hover {
@@ -77,7 +80,7 @@ body {
   border-radius: 8px;
   box-shadow: 2px 2px 0px 0px #000000, inset 0 0 0 2px #000000;
   color: #505050;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
 }
 
 .brutal-input:focus {
@@ -132,7 +135,7 @@ body {
   border-radius: 8px;
   box-shadow: 2px 2px 0px 0px #000000, inset 0 0 0 2px #000000;
   color: #505050;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
   cursor: pointer;
 }
 
